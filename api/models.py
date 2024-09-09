@@ -1,3 +1,5 @@
+from datetime import datetime
+from django.db.models import Q
 from django.db import models
 
 
@@ -21,7 +23,7 @@ class Document(models.Model):
     name = models.CharField(max_length=50)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    
+
 
 class Stamp(models.Model):
     name = models.CharField(max_length=50)
@@ -46,13 +48,45 @@ class Car(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    
+    def get_days_for_current_month_and_car(self, car):
+        now = datetime.now()
+        year = now.year
+        month = now.month
+
+        days = CarKilometerLog.objects.filter(
+            car=car,
+            mileage_date__year=year,
+            mileage_date__month=month
+        )
+
+        return [ day.to_json() for day in days ]
+
+    def to_json(self):
+        return {
+            'id': self.id,
+            'ppu': self.ppu,
+            'type': self.car_type.name,
+            'mileage': self.mileage,
+            'mileage_limit': self.mileage_limit,
+            'service': self.service.name,
+            'days': self.get_days_for_current_month_and_car(self)
+        }
+
+
 class CarKilometerLog(models.Model):
     car = models.ForeignKey(Car, on_delete=models.CASCADE, null=False, blank=False)
     mileage = models.FloatField()
     mileage_date = models.DateTimeField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def to_json(self):
+        return {
+            'id': self.id,
+            'mileage': self.mileage,
+            'date': self.mileage_date,
+            'dateFormmatted':  self.mileage_date.strftime('%d-%m-%Y')
+        }
 
 
 class CarStamp(models.Model):

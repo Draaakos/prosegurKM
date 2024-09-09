@@ -1,3 +1,5 @@
-from django.shortcuts import render
+from .controller.car import CarView
+from .controller.car_kilometerlog import CarKilometerLogView
 
-# Create your views here.
+car_view = CarView.as_view()
+view_car_kilometer_log = CarKilometerLogView.as_view()

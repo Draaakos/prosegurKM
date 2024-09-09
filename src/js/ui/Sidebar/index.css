@@ -1,0 +1,16 @@
+.sidebar {
+    min-width: 300px;
+    max-width: 300px;
+    background-color: white;
+    height: 100vh;
+    min-height: 100vh;
+    padding: 24px;
+    box-sizing: border-box;
+    border-right: 1px solid #e2e8f0;
+}
+
+.label {
+    color: #64748b;
+    font-size: 16px;
+    margin-bottom: 5px;
+}

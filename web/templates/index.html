@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% load web_extras %}
+
+{% block js %}
+<script src="{% version 'js/home.bundle.js' %}" defer></script>
+{% endblock %}
+
+{% block content %}
+<div id="app"></div>
+{% endblock %}

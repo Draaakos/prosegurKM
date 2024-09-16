@@ -1,4 +1,5 @@
 import Box from 'ui/Box';
+import RowHeader from './RowHeader';
 import Row from './Row';
 import Days from './Days';
 import css from './index.css';
@@ -16,6 +17,7 @@ const CarTable = ({ data, actions }) => {
   return (
     <Box>
       <div className={css.table}>
+        <RowHeader list={[ "PPU", "Tipo", "KM. Restante", "KM. Actual", "Estado" ]} />
         {cars}
       </div>
     </Box>

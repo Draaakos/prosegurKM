@@ -3,3 +3,8 @@
     width: 900px;
     color: #000;
 }
+
+.row_car {
+    border-top: 1px solid #636162;
+    padding: 1em;
+}

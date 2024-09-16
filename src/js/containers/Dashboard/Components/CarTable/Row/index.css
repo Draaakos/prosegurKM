@@ -3,7 +3,7 @@
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     gap: 1em;
-    border-bottom: 1px solid #efefef;
+    /* border-bottom: 1px solid #efefef; */
 }
 
 .row > div {

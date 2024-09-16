@@ -85,7 +85,7 @@ class CarKilometerLog(models.Model):
             'id': self.id,
             'mileage': self.mileage,
             'date': self.mileage_date,
-            'dateFormmatted':  self.mileage_date.strftime('%d-%m-%Y')
+            'dateFormmatted': self.mileage_date.strftime('%d-%m-%Y')
         }
 
 

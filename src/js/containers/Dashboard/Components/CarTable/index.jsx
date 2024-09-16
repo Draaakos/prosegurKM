@@ -7,7 +7,7 @@ const CarTable = ({ data, actions }) => {
   const cars = data
     .map(car => {
       return (
-        <div>
+        <div className={css.row_car}>
           <Row car={car} />
           <Days car={car} actions={actions} />
         </div>

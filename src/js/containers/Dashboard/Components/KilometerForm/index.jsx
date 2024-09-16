@@ -16,11 +16,11 @@ const KilometerForm = ({ car, day }) => {
   }
 
   return (
-    <div className={css.content_form}>
-      <div>
-        <div>{car.ppu}</div>
-        <input ref={kilometerRef} type="number" placeholder='200' />
-        <button onClick={onSubmit}>Agregar Kilometraje</button>
+    <div className={css.content}>
+      <div className={css.content__form}>
+        <div className={css.content__title}>{car.ppu}</div>
+        <div className={css.content__input}><input min="0" ref={kilometerRef} type="number" placeholder='200' /></div>
+        <div className={css.content__button} onClick={onSubmit}>Agregar Kilometraje</div>
       </div>
     </div>
   )

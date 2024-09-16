@@ -1,6 +1,41 @@
-.content_form {
+.content {
     max-width: 600px;
     display: flex;
     justify-content: center;
     align-items: center;
+    min-height: 250px;
+}
+
+.content__form {
+}
+
+.content__title {
+    text-align: center;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.content__input {
+    margin: 1em 0;
+}
+
+.content__input > input {
+    padding: .8em;
+    outline: none;
+}
+
+.content__button {
+    padding: .8em;
+    text-align: center;
+    color: white;
+    font-weight: bold;
+    background-color: #1e293b;
+    border-radius: 5px;
+    width: 100%;
+    cursor: pointer;
+    opacity: .9;
+}
+
+.content__button:hover {
+    opacity: 1;
 }

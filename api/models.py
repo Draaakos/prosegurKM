@@ -42,7 +42,7 @@ class Car(models.Model):
     ppu = models.CharField(max_length=50)
     car_type = models.ForeignKey(CarType, on_delete=models.CASCADE, null=False, blank=False)
     mileage = models.FloatField()
-    mileage_limit = models.FloatField()
+    mileage_preventive = models.FloatField()
     extinguisher = models.DateTimeField(auto_now=True)
     service = models.ForeignKey(Service, on_delete=models.CASCADE, null=False, blank=False)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -67,7 +67,7 @@ class Car(models.Model):
             'ppu': self.ppu,
             'type': self.car_type.name,
             'mileage': self.mileage,
-            'mileage_limit': self.mileage_limit,
+            'mileage_preventive': self.mileage_preventive,
             'service': self.service.name,
             'days': self.get_days_for_current_month_and_car(self)
         }
@@ -75,7 +75,8 @@ class Car(models.Model):
 
 class CarKilometerLog(models.Model):
     car = models.ForeignKey(Car, on_delete=models.CASCADE, null=False, blank=False)
-    mileage = models.FloatField()
+    prev_mileage = models.FloatField()
+    next_mileage = models.FloatField()
     mileage_date = models.DateTimeField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -83,7 +84,8 @@ class CarKilometerLog(models.Model):
     def to_json(self):
         return {
             'id': self.id,
-            'mileage': self.mileage,
+            'prev_mileage': self.prev_mileage,
+            'next_mileage': self.next_mileage,
             'date': self.mileage_date,
             'dateFormmatted': self.mileage_date.strftime('%d-%m-%Y')
         }

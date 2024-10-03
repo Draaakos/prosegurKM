@@ -5,7 +5,7 @@ from .models import Car, CarKilometerLog
 class CarForm(forms.ModelForm):
     class Meta:
         model = Car
-        fields = ['ppu', 'car_type', 'mileage', 'mileage_limit', 'service']
+        fields = ['ppu', 'car_type', 'mileage', 'mileage_preventive', 'service']
         widgets = {
             'extinguisher': forms.DateTimeInput(attrs={'readonly': 'readonly'}),
         }
@@ -14,4 +14,4 @@ class CarForm(forms.ModelForm):
 class CarKilometerLogForm(forms.ModelForm):
     class Meta:
         model = CarKilometerLog
-        fields = ['car', 'mileage', 'mileage_date']
+        fields = ['car', 'prev_mileage', 'next_mileage', 'mileage_date']

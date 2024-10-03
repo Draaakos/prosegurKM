@@ -42,7 +42,8 @@ const getConfig = async (env = { mode: 'development' }) => {
     },
     resolve: {
       alias: {
-        ui: path.resolve(__dirname, 'src', 'js', 'ui')
+        ui: path.resolve(__dirname, 'src', 'js', 'ui'),
+        utils: path.resolve(__dirname, 'src', 'js', 'utils')
       },
       extensions: ['.js', '.jsx'],
       enforceExtension: false,

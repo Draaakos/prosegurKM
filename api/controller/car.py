@@ -1,3 +1,4 @@
+import json
 from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
 from django.views import View
@@ -31,12 +32,13 @@ class CarView(View):
         return JsonResponse({'errors': form.errors}, status=400)
 
     def put(self, request, car_id):
-        car = get_object_or_404(Car, id=car_id)
-        form = CarForm(request.PUT, instance=car)
-        if form.is_valid():
-            form.save()
-            return JsonResponse({'message': 'Car updated successfully!'})
-        return JsonResponse({'errors': form.errors}, status=400)
+        data = json.loads(request.body)
+
+        car = Car.objects.get(pk=car_id)
+        car.mileage = data['mileage']
+        car.save()
+
+        return JsonResponse({ 'message': 'Car updated' })
 
     def delete(self, request, car_id):
         car = get_object_or_404(Car, id=car_id)

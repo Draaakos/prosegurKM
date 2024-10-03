@@ -17,7 +17,7 @@ const CarTable = ({ data, actions }) => {
   return (
     <Box>
       <div className={css.table}>
-        <RowHeader list={[ "PPU", "Tipo", "KM. Restante", "KM. Actual", "Estado" ]} />
+        <RowHeader list={[ "PPU", "Tipo", "KM. Actual", "KM Preventivo", "KM. Restante", "Estado" ]} />
         {cars}
       </div>
     </Box>

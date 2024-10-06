@@ -19,10 +19,8 @@ const KilometerForm = ({ car, day }) => {
     const logId = day.id;
     const kmDate = day.date;
 
-    const newCar = {
-      'id': car.id,
-      'mileage': mileage
-    }
+    const newCar = { ...car };
+    newCar.mileage = mileage;
 
     const prevMileage = car.mileage;
     const nextMileage = mileage;

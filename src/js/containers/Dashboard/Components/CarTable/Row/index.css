@@ -11,9 +11,21 @@
 }
 
 .editable {
-    width: 100px;
+    display: flex;
+    justify-content: start;
+    align-items: center;
 }
 
-.editable > input {
+.editable input,
+.editable > div {
     all: unset;
+    width: 50px;
+    display: flex;
+    align-content: center;
+}
+
+.editable img {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
 }

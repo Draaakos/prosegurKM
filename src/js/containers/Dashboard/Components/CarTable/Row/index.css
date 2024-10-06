@@ -16,16 +16,45 @@
     align-items: center;
 }
 
-.editable input,
-.editable > div {
-    all: unset;
-    width: 50px;
+.input_container {
+    display: flex;
+    align-items: center;
+}
+
+.warning_icon {
+    width: 16px;
+    height: 16px;
+    margin-top: 4px;
+    margin-left: 4px;
+}
+
+.rest_content {
+    display: flex;
+    align-items: center;
+}
+
+.preventive_block {
+    display: flex;
+    align-items: center;
+    width: 90px;
+}
+
+.preventive_input_text {
+    width: 55px;
     display: flex;
     align-content: center;
 }
 
-.editable img {
+.preventive_input_text input {
+    all: unset;
+}
+
+.preventive_icon img {
     width: 16px;
     height: 16px;
     cursor: pointer;
+    margin-left: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

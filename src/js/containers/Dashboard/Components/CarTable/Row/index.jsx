@@ -26,10 +26,10 @@ const InformationEditableInput = ({ text, onUpdateMileagePreventive }) => {
     : `/static/${VERSION}/images/generic/floppy-disk-arrow-in.svg`;
 
   return (
-    <div className={css.editable}>
-      <div>{item}</div>
-      { prevText == text && !isActive ? <div><img onClick={() => setIsActive(!isActive)} src={iconActive} /></div> : null }
-      { prevText != text ? <div><img onClick={onSave} src={iconActive} /></div> : null }
+    <div className={css.preventive_block}>
+      <div className={css.preventive_input_text}>{item}</div>
+      { prevText == text && !isActive ? <div className={css.preventive_icon}><img onClick={() => setIsActive(!isActive)} src={iconActive} /></div> : null }
+      { prevText != text ? <div className={css.preventive_icon}><img onClick={onSave} src={iconActive} /></div> : null }
     </div>
   );
 };
@@ -45,15 +45,26 @@ const Row = ({ car }) => {
     carService.updateCar(payload)
   }
 
-  const kmRest = formatMilesSeparator(150000 - car.mileage);
+  const KM_LIMIT = 150000;
+  const kmRest = KM_LIMIT - car.mileage;
+  const preventiveItem = <img className={css.warning_icon} src={`/static/${VERSION}/images/generic/warning-triangle-solid.svg`} />;
+
+  const isWarningActivePrev = car.mileage >= (mileagePreventive - 1000);
+  const isWarningActiveRest = kmRest < (KM_LIMIT * 0.10);
 
   return (
     <div className={css.row}>
       <div>{car.ppu}</div>
       <div>{car.type}</div>
       <div>{formatMilesSeparator(car.mileage)} KM</div>
-      <div><InformationEditableInput text={mileagePreventive} onUpdateMileagePreventive={onUpdateMileagePreventive} /></div>
-      <div>{kmRest} KM</div>
+      <div className={css.input_container}>
+        <InformationEditableInput text={mileagePreventive} onUpdateMileagePreventive={onUpdateMileagePreventive} />
+        <div>{ isWarningActivePrev ? preventiveItem : null }</div>
+      </div>
+      <div className={css.rest_content}>
+        <div>{formatMilesSeparator(kmRest)} KM</div>
+        <div>{ isWarningActiveRest ? preventiveItem : null }</div>
+      </div>
       <div>{car.service}</div>
     </div>
   );

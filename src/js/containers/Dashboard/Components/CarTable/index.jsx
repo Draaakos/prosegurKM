@@ -5,15 +5,16 @@ import Days from './Days';
 import css from './index.css';
 
 const CarTable = ({ data, actions }) => {
-  const cars = data
+  const cars = data.cars
     .map(car => {
       return (
         <div className={css.row_car}>
-          <Row car={car} />
+          <Row car={car} serviceOptions={data.serviceOptions}/>
           <Days car={car} actions={actions} />
         </div>
       )
     });
+
   return (
     <Box>
       <div className={css.table}>

@@ -37,6 +37,10 @@ class CarView(View):
         car = Car.objects.get(pk=car_id)
         car.mileage = data['mileage']
         car.mileage_preventive = data['mileage_preventive']
+
+        if 'serviceId' in data:
+            car.service_id = int(data['serviceId'])
+
         car.save()
 
         return JsonResponse({ 'message': 'Car updated' })

@@ -35,14 +35,20 @@ const InformationEditableInput = ({ text, onUpdateMileagePreventive }) => {
 };
 
 
-const Row = ({ car }) => {
+const Row = ({ car, serviceOptions }) => {
   const [ mileagePreventive, setMileagePreventive ] = useState(car.mileage_preventive);
 
   const onUpdateMileagePreventive = (value) => {
-    setMileagePreventive(value)
-    const payload = { ...car }
+    setMileagePreventive(value);
+    const payload = { ...car };
     payload.mileage_preventive = value;
-    carService.updateCar(payload)
+    carService.updateCar(payload);
+  };
+
+  const onUpdateService = (evt) => {
+    const payload = { ...car };
+    payload.serviceId = evt.target.value;
+    carService.updateCar(payload);
   }
 
   const KM_LIMIT = 150000;
@@ -65,7 +71,11 @@ const Row = ({ car }) => {
         <div>{formatMilesSeparator(kmRest)} KM</div>
         <div>{ isWarningActiveRest ? preventiveItem : null }</div>
       </div>
-      <div>{car.service}</div>
+      <div>
+        <select className={css.selector} onChange={onUpdateService} defaultValue={car.service_id}>
+          {serviceOptions.map((option) => <option value={option.id}>{option.name}</option>)}
+        </select>
+      </div>
     </div>
   );
 };

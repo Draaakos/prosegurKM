@@ -37,6 +37,12 @@ class Service(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def to_json(self):
+        return {
+            'id': self.id,
+            'name': self.name
+        }
+
 
 class Car(models.Model):
     ppu = models.CharField(max_length=50)
@@ -69,6 +75,7 @@ class Car(models.Model):
             'mileage': self.mileage,
             'mileage_preventive': self.mileage_preventive,
             'service': self.service.name,
+            'service_id': self.service.id,
             'days': self.get_days_for_current_month_and_car(self)
         }
 

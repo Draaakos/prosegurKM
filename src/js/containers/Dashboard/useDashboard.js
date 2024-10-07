@@ -6,6 +6,7 @@ const useDashboard = () => {
   const [ carActive, setCarActive ] = useState(1);
   const [ dayActive, setDayActive ] = useState(null);
   const [ mileageModalActive, setMileageModalActive ] = useState(false);
+  const [ serviceOptions, setServiceOptions ] = useState([]);
 
 
   const actions = {
@@ -20,8 +21,8 @@ const useDashboard = () => {
     carService.fetchCars()
       .then(response => setCars(response));
 
-    // trainerService.fetchTrainers()
-    //   .then(response => setTrainers(response?.trainers));
+    carService.fetchServiceSelector()
+      .then(response => setServiceOptions(response.services));
   }, []);
 
   return {
@@ -29,7 +30,8 @@ const useDashboard = () => {
       cars,
       carActive,
       mileageModalActive,
-      dayActive
+      dayActive,
+      serviceOptions
     },
     actions: {
       ...actions,

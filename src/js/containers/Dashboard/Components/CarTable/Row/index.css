@@ -1,9 +1,8 @@
 .row {
     color: #636162;
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
+    grid-template-columns: 1fr 1fr 1fr 1.2fr 1.1fr 2fr;
     gap: 1em;
-    /* border-bottom: 1px solid #efefef; */
 }
 
 .row > div {
@@ -36,7 +35,7 @@
 .preventive_block {
     display: flex;
     align-items: center;
-    width: 90px;
+    width: 80px;
 }
 
 .preventive_input_text {
@@ -57,4 +56,12 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.selector {
+    background-color: white;
+    border: none;
+    color: #636162;
+    font-size: 1em;
+    font-family: 'Poppins';
 }

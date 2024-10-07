@@ -11,7 +11,7 @@ const Day = ({ onClick, day }) => {
 
   const handler = day.next_mileage > 0
     ? () => {}
-    : () => onClick(day) ;
+    : () => onClick(day);
 
   return (
     <div onClick={handler} className={classes}>
@@ -34,7 +34,7 @@ const Days = ({ car, actions }) => {
     <div className={css.days}>
       { car.days.map(day => <Day day={day} onClick={onClick} />) }
     </div>
-  )
+  );
 };
 
 export default Days;

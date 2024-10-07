@@ -12,7 +12,7 @@ const KilometerForm = ({ car, day }) => {
 
     if(mileage <= car.mileage) {
       alert('No puede ser menor que el kilometraje actual');
-      return
+      return;
     }
 
     const carId = car.id;
@@ -29,7 +29,7 @@ const KilometerForm = ({ car, day }) => {
       .then(response => console.log(response));
 
     service.updateCar(newCar)
-      .then(response => console.log(response))
+      .then(response => console.log(response));
   }
 
 

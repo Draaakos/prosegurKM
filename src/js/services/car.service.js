@@ -20,7 +20,11 @@ const carService = {
   updateCar(car) {
     const url = `/api/v1/cars/${car.id}/`;
     return http.put(url, car)
-  }
+  },
+  fetchServiceSelector() {
+    const url = `/api/v1/cars/filter/services`;
+    return http.get(url);
+  },
 };
 
 

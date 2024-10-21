@@ -6,6 +6,7 @@ const useDashboard = () => {
   const [ carActive, setCarActive ] = useState(1);
   const [ dayActive, setDayActive ] = useState(null);
   const [ mileageModalActive, setMileageModalActive ] = useState(false);
+  const [ isMoreDetailsModalActive, setIsMoreDetailsModalActive ] = useState(false);
   const [ serviceOptions, setServiceOptions ] = useState([]);
 
 
@@ -13,7 +14,11 @@ const useDashboard = () => {
     onSelectCar: (car, day) => {
       setCarActive(car);
       setMileageModalActive(true);
-      setDayActive(day)
+      setDayActive(day);
+    },
+    onActiveDetails: (car) => {
+      setCarActive(car);
+      setIsMoreDetailsModalActive(true);
     }
   };
 
@@ -31,11 +36,13 @@ const useDashboard = () => {
       carActive,
       mileageModalActive,
       dayActive,
-      serviceOptions
+      serviceOptions,
+      isMoreDetailsModalActive
     },
     actions: {
       ...actions,
-      setMileageModalActive
+      setMileageModalActive,
+      setIsMoreDetailsModalActive
     }
   }
 };

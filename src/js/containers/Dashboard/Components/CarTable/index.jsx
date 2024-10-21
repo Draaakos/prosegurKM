@@ -9,7 +9,11 @@ const CarTable = ({ data, actions }) => {
     .map(car => {
       return (
         <div className={css.row_car}>
-          <Row car={car} serviceOptions={data.serviceOptions}/>
+          <Row
+            car={car}
+            serviceOptions={data.serviceOptions}
+            onActiveDetails={actions.onActiveDetails}
+          />
           <Days car={car} actions={actions} />
         </div>
       )
@@ -18,7 +22,7 @@ const CarTable = ({ data, actions }) => {
   return (
     <Box>
       <div className={css.table}>
-        <RowHeader list={[ "PPU", "Tipo", "KM. Actual", "KM Preventivo", "KM. Restante", "Estado" ]} />
+        <RowHeader list={[ "PPU", "Tipo", "KM. Actual", "KM Preventivo", "KM. Restante", "Estado", "Sellos", "Detalles" ]} />
         {cars}
       </div>
     </Box>

@@ -20,8 +20,6 @@ def generate_kilometer_logs_for_current_month(car):
         car_kilometer_log.next_mileage = 0
         car_kilometer_log.save()
 
-
-
 def run():
     for car in Car.objects.all():
         generate_kilometer_logs_for_current_month(car)

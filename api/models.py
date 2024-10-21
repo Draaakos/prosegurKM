@@ -27,9 +27,15 @@ class Document(models.Model):
 
 class Stamp(models.Model):
     name = models.CharField(max_length=50)
-    expired_date = models.DateTimeField()
+    color = models.CharField(max_length=50)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def to_json(self):
+        return {
+            'name': self.name,
+            'color': self.color
+        }
 
 
 class Service(models.Model):
@@ -101,8 +107,12 @@ class CarKilometerLog(models.Model):
 class CarStamp(models.Model):
     stamp = models.ForeignKey(Stamp, on_delete=models.CASCADE, null=False, blank=False)
     car = models.ForeignKey(Car, on_delete=models.CASCADE, null=False, blank=False)
+    expired_date = models.DateTimeField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def to_json(self):
+        return self.stamp.to_json()
 
 
 class CarDocument(models.Model):

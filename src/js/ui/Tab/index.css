@@ -1,0 +1,27 @@
+.tab {
+    width: 100%;
+}
+
+.tabHeader {
+    font-weight: bold;
+    display: flex;
+}
+
+.tabHeader__item {
+    padding: .5em 1em;
+    border-bottom: 2px solid transparent;
+}
+
+.tabHeader__item:hover {
+    cursor: pointer;
+}
+
+.tabHeader__item__active {
+    border-bottom: 2px solid #ffd300;
+}
+
+.tabBody {
+    min-height: 100px;
+    width: 100%;
+    padding: 2em 1em;
+}

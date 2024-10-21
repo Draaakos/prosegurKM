@@ -50,7 +50,7 @@ def car_dto(row):
     return {
         'ppu': row[0],
         'type': row[1],
-        'mileage_limit': row[2],
+        'mileage_preventive': row[2],
         'mileage': row[4],
         'r_tecn': row[5],
         'p_circ': row[6],
@@ -69,7 +69,7 @@ def run():
     with open(filename, mode='r', newline='') as file:
         csv_reader = csv.reader(file)
         header = next(csv_reader)
-        
+
         for idx, row in enumerate(csv_reader):
             if idx > 0:
                 cars.append(car_dto(row))
@@ -90,7 +90,7 @@ def run():
             new_car_ppu = car['ppu'].upper()
 
             new_car_mileage = float(car['mileage'])
-            new_car_mileage_limit = float(car['mileage_limit'])
+            new_car_mileage_preventive = float(car['mileage_preventive'])
 
             name_current_service = _get_service_by_ppu(new_car_ppu)
 
@@ -104,13 +104,10 @@ def run():
                 else:
                     new_car_current_service = Service.objects.get(name=name_current_service)
 
-
-            # print(new_car_current_service.id)
-
             new_car = Car()
             new_car.ppu = new_car_ppu
             new_car.car_type = new_car_type
             new_car.mileage = new_car_mileage
-            new_car.mileage_limit = new_car_mileage_limit
+            new_car.mileage_preventive = new_car_mileage_preventive
             new_car.service = new_car_current_service
             new_car.save()

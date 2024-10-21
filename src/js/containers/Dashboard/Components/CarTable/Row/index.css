@@ -1,8 +1,8 @@
 .row {
     color: #636162;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1.2fr 1.1fr 2fr;
-    gap: 1em;
+    grid-template-columns: repeat(8, 1fr);
+    /* gap: 1em; */
 }
 
 .row > div {
@@ -64,4 +64,11 @@
     color: #636162;
     font-size: 1em;
     font-family: 'Poppins';
+    width: 100%;
+    padding: 0;
+}
+
+.moreDetail {}
+.moreDetail:hover {
+    cursor: pointer;
 }

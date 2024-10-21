@@ -2,8 +2,9 @@ import json
 from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
 from django.views import View
-from api.models import Car
+from api.models import Car, CarStamp
 from api.forms import CarForm
+
 
 class CarView(View):
     def get(self, request, car_id=None):
@@ -17,12 +18,18 @@ class CarView(View):
                 'extinguisher': car.extinguisher,
                 'service': car.service.id,
                 'created_at': car.created_at,
-                'updated_at': car.updated_at,
+                'updated_at': car.updated_at
             }
             return JsonResponse(data)
         else:
-            cars = Car.objects.all()
-            return JsonResponse([item.to_json() for item in cars], safe=False)
+            car_list = []
+            for car in Car.objects.all():
+                item = car.to_json()
+                item['stamps'] = [ stamp.to_json() for stamp in CarStamp.objects.filter(car__id=car.id) ]
+                CarStamp.objects.filter(car__id=car.id)
+                car_list.append(item)
+            return JsonResponse(car_list, safe=False)
+
 
     def post(self, request):
         form = CarForm(request.POST)

@@ -35,7 +35,7 @@ const InformationEditableInput = ({ text, onUpdateMileagePreventive }) => {
 };
 
 
-const Row = ({ car, serviceOptions }) => {
+const Row = ({ car, serviceOptions, onActiveDetails }) => {
   const [ mileagePreventive, setMileagePreventive ] = useState(car.mileage_preventive);
 
   const onUpdateMileagePreventive = (value) => {
@@ -75,6 +75,14 @@ const Row = ({ car, serviceOptions }) => {
         <select className={css.selector} onChange={onUpdateService} defaultValue={car.service_id}>
           {serviceOptions.map((option) => <option value={option.id}>{option.name}</option>)}
         </select>
+      </div>
+      <div>
+        x
+      </div>
+      <div>
+        <div className={css.moreDetail}>
+          <img onClick={() => onActiveDetails(car)} src={`/static/${VERSION}/images/generic/eye.svg`} />
+        </div>
       </div>
     </div>
   );

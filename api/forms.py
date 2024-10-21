@@ -1,5 +1,5 @@
 from django import forms
-from .models import Car, CarKilometerLog
+from .models import Car, CarKilometerLog, CarStamp
 
 
 class CarForm(forms.ModelForm):
@@ -15,3 +15,4 @@ class CarKilometerLogForm(forms.ModelForm):
     class Meta:
         model = CarKilometerLog
         fields = ['car', 'prev_mileage', 'next_mileage', 'mileage_date']
+

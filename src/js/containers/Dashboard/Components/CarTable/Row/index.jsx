@@ -49,7 +49,7 @@ const Row = ({ car, serviceOptions, onActiveDetails }) => {
     const payload = { ...car };
     payload.serviceId = evt.target.value;
     carService.updateCar(payload);
-  }
+  };
 
   const KM_LIMIT = 150000;
   const kmRest = KM_LIMIT - car.mileage;
@@ -57,6 +57,10 @@ const Row = ({ car, serviceOptions, onActiveDetails }) => {
 
   const isWarningActivePrev = car.mileage >= (mileagePreventive - 1000);
   const isWarningActiveRest = kmRest < (KM_LIMIT * 0.10);
+
+  const stamps = car.stamps.map((stamp, idx) =>
+    <div className={css.stamp} key={`stamp-${idx}`} style={{ backgroundColor: stamp.color }}/>
+  );
 
   return (
     <div className={css.row}>
@@ -73,11 +77,11 @@ const Row = ({ car, serviceOptions, onActiveDetails }) => {
       </div>
       <div>
         <select className={css.selector} onChange={onUpdateService} defaultValue={car.service_id}>
-          {serviceOptions.map((option) => <option value={option.id}>{option.name}</option>)}
+          {serviceOptions.map((option, idx) => <option key={`option-${idx}`} value={option.id}>{option.name}</option>)}
         </select>
       </div>
-      <div>
-        x
+      <div className={css.stamps}>
+        {stamps}
       </div>
       <div>
         <div className={css.moreDetail}>

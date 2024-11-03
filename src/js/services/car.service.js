@@ -6,12 +6,14 @@ const carService = {
     const url = '/api/v1/cars';
     return http.get(url);
   },
-  addKMToCar(logId, car, prevMileage, nextMileage, mileageDate) {
+  addKMToCar(logId, car, nextMileageAM, prevMileageAM, nextMileagePM, prevMileagePM, mileageDate) {
     const url = `/api/v1/cars/kilometers/logs/${logId}/`;
     const payload = {
       car,
-      next_mileage: nextMileage,
-      prev_mileage: prevMileage,
+      mileage_am: nextMileageAM,
+      prev_mileage_am: prevMileageAM,
+      mileage_pm: nextMileagePM,
+      prev_mileage_pm: prevMileagePM,
       mileage_date: mileageDate
     };
 

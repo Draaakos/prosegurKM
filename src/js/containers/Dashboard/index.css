@@ -2,6 +2,13 @@
     text-align: center;
 }
 
+.panel {
+    width: 1024px;
+    margin: 1em auto;
+    display: flex;
+    justify-content: space-between;
+}
+
 .content {
     padding: 1em;
 }

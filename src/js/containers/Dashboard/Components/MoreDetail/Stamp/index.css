@@ -9,3 +9,59 @@
     border-radius: 50%;
     margin-right: 5px;
 }
+
+.delete {
+    color: #333;
+    /* border: 1px solid #d71542; */
+    border-radius: 5px;
+    width: 16px;
+    height: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 10px;
+    /* background-color: #e52553; */
+    cursor: pointer;
+}
+
+.delete > img {
+    width: 100%;
+}
+
+
+.expired {
+    padding: 0 1em;
+}
+
+
+.stamp_add {
+    margin: 1em 0;
+    cursor: pointer;
+}
+
+.stamp_form {
+    display: grid;
+    grid-template-columns: 150px 150px 100px;
+    gap: 1em;
+}
+
+.stamp_form select,
+.stamp_form input {
+    width: 100%;
+}
+
+.stamp_btn_add {
+    border: 1px solid #efefef;
+    border-radius: 5px;
+    padding: .5em 1em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.stamp_btn_add:hover {
+    cursor: pointer;
+    background-color: #ffd300;
+    color: black;
+}

@@ -7,6 +7,8 @@
 
 .row > div {
     padding: 1em;
+    display: flex;
+    align-items: center;
 }
 
 .editable {
@@ -71,4 +73,19 @@
 .moreDetail {}
 .moreDetail:hover {
     cursor: pointer;
+}
+
+.stamps {
+    display: flex;
+    align-items: center;
+}
+
+.stamps > .stamp {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    margin-right: 2px;
 }

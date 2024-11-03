@@ -24,6 +24,12 @@ class Document(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def to_json(self):
+        return {
+            'id': self.id,
+            'name': self.name
+        }
+
 
 class Stamp(models.Model):
     name = models.CharField(max_length=50)
@@ -33,6 +39,7 @@ class Stamp(models.Model):
 
     def to_json(self):
         return {
+            'id': self.id,
             'name': self.name,
             'color': self.color
         }
@@ -88,8 +95,10 @@ class Car(models.Model):
 
 class CarKilometerLog(models.Model):
     car = models.ForeignKey(Car, on_delete=models.CASCADE, null=False, blank=False)
-    prev_mileage = models.FloatField()
-    next_mileage = models.FloatField()
+    prev_mileage_am = models.FloatField()
+    prev_mileage_pm = models.FloatField()
+    mileage_am = models.FloatField()
+    mileage_pm = models.FloatField()
     mileage_date = models.DateTimeField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -97,8 +106,10 @@ class CarKilometerLog(models.Model):
     def to_json(self):
         return {
             'id': self.id,
-            'prev_mileage': self.prev_mileage,
-            'next_mileage': self.next_mileage,
+            'prev_mileage_am': self.prev_mileage_am,
+            'prev_mileage_pm': self.prev_mileage_pm,
+            'mileage_am': self.mileage_am,
+            'mileage_pm': self.mileage_pm,
             'date': self.mileage_date,
             'dateFormmatted': self.mileage_date.strftime('%d-%m-%Y')
         }
@@ -112,11 +123,30 @@ class CarStamp(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def to_json(self):
-        return self.stamp.to_json()
+        stamp = self.stamp.to_json()
+
+        return {
+            'car_stamp_id': self.id,
+            'stamp_id': stamp['id'],
+            'color': stamp['color'],
+            'name': stamp['name'],
+            'expired_date': self.expired_date.strftime('%d-%m-%Y')
+        }
 
 
 class CarDocument(models.Model):
     document = models.ForeignKey(Document, on_delete=models.CASCADE, null=False, blank=False)
     car = models.ForeignKey(Car, on_delete=models.CASCADE, null=False, blank=False)
+    expired_date = models.DateTimeField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def to_json():
+        document = self.document.to_json()
+
+        return {
+            'car_document_id': self.id,
+            'document_id': document['id'],
+            'name': document['name'],
+            # 'expired_date': self.expired_date.strftime('%d-%m-%Y')
+        }

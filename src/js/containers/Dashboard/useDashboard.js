@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import carService from './../../services/car.service.js';
 
 const useDashboard = () => {
+  const [ filterCars, setFilterCars ] = useState([]);
   const [ cars, setCars ] = useState([]);
   const [ carActive, setCarActive ] = useState(1);
   const [ dayActive, setDayActive ] = useState(null);
@@ -24,7 +25,10 @@ const useDashboard = () => {
 
   useEffect(() => {
     carService.fetchCars()
-      .then(response => setCars(response));
+      .then(response => {
+        setCars(response);
+        setFilterCars(response);
+      });
 
     carService.fetchServiceSelector()
       .then(response => setServiceOptions(response.services));
@@ -37,7 +41,8 @@ const useDashboard = () => {
       mileageModalActive,
       dayActive,
       serviceOptions,
-      isMoreDetailsModalActive
+      isMoreDetailsModalActive,
+      filterCars
     },
     actions: {
       ...actions,

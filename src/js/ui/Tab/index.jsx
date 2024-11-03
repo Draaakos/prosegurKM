@@ -14,6 +14,7 @@ const TabHeader = ({ list, onSelectTab, idxActive }) => {
 
           return (
             <div
+              key={`tab-header-${idx}`}
               onClick={onSelectTab(idx)}
               className={classes}
             >

@@ -16,8 +16,10 @@ def generate_kilometer_logs_for_current_month(car):
         car_kilometer_log = CarKilometerLog()
         car_kilometer_log.car = car
         car_kilometer_log.mileage_date = mileage_date
-        car_kilometer_log.prev_mileage = 0
-        car_kilometer_log.next_mileage = 0
+        car_kilometer_log.prev_mileage_am = 0
+        car_kilometer_log.prev_mileage_pm = 0
+        car_kilometer_log.mileage_pm = 0
+        car_kilometer_log.mileage_am = 0
         car_kilometer_log.save()
 
 def run():

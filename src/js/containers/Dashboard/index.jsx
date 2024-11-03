@@ -36,7 +36,11 @@ const Dashboard = () => {
 
         <div className={css.content}>
           <h1 className={css.title}>Camionetas PROSEGUR</h1>
-          { states.cars.length && <CarTable data={states} actions={actions} /> }
+          <div className={css.panel}>
+            <input placeholder="buscar" type="text" />
+            <button>Descargar Excel</button>
+          </div>
+          { states.filterCars.length && <CarTable data={states} actions={actions} /> }
         </div>
       </Wrapper>
     </DashboardContext.Provider>

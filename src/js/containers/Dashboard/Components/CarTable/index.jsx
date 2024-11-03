@@ -5,10 +5,10 @@ import Days from './Days';
 import css from './index.css';
 
 const CarTable = ({ data, actions }) => {
-  const cars = data.cars
-    .map(car => {
+  const cars = data.filterCars
+    .map((car, idx) => {
       return (
-        <div className={css.row_car}>
+        <div className={css.row_car} key={`car-${idx}`}>
           <Row
             car={car}
             serviceOptions={data.serviceOptions}

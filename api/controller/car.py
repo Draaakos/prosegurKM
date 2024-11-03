@@ -2,7 +2,7 @@ import json
 from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
 from django.views import View
-from api.models import Car, CarStamp
+from api.models import Car, CarStamp, CarDocument
 from api.forms import CarForm
 
 
@@ -26,6 +26,7 @@ class CarView(View):
             for car in Car.objects.all():
                 item = car.to_json()
                 item['stamps'] = [ stamp.to_json() for stamp in CarStamp.objects.filter(car__id=car.id) ]
+                item['documents'] = [ document.to_json() for document in CarDocument.objects.filter(car__id=car.id) ]
                 CarStamp.objects.filter(car__id=car.id)
                 car_list.append(item)
             return JsonResponse(car_list, safe=False)

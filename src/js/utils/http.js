@@ -23,6 +23,16 @@ const http = {
     })
       .then(response => response.json());
   },
+  delete(url, payload) {
+    return window.fetch(url, {
+      method: 'DELETE',
+      body: JSON.stringify(payload),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(response => response.json());
+  },
 };
 
 export default http;

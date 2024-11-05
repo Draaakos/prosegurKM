@@ -1,14 +1,22 @@
-import { useContext, useState } from 'react';
+import { useContext, useRef, useState } from 'react';
 import { DashboardContext } from '../../../context.js';
+import service from '../../../../../services/car.service.js';
 import css from './index.css';
 
 const Item = ({ data }) => {
+  const onDeleteItem = () => {
+    service.deleteStampForCar({ 'car_stamp_id': data.car_stamp_id })
+      .then(response => {
+        window.location.reload();
+      });
+  };
+
   return (
    <div className={css.stamps}>
       <div className={css.stamp} style={{ backgroundColor: data.color }}></div>
       <div>Sello: {data.name}</div>
       <div className={css.expired}>expira: {data.expired_date}</div>
-      <div className={css.delete}>
+      <div className={css.delete} onClick={onDeleteItem}>
         <img src={`/static/${VERSION}/images/generic/trash-solid.svg`} />
       </div>
    </div>
@@ -16,7 +24,10 @@ const Item = ({ data }) => {
 };
 
 
-const StampForm = ({ stampsActives }) => {
+const StampForm = ({ car, stampsActives }) => {
+  const expiredDateRef = useRef(null);
+  const stampIdRef = useRef(null);
+
   const stamps = [
     {
       id: 1,
@@ -32,6 +43,20 @@ const StampForm = ({ stampsActives }) => {
     }
   ];
 
+  const onSend = () => {
+    const expiredDate = expiredDateRef.current.value.replaceAll('-', '/');
+    const stampId = stampIdRef.current.value;
+
+    const payload = {
+      'car': car.id,
+      'stamp': stampId,
+      'expired_date': expiredDate
+    }
+
+    service.addStampForCar(payload)
+      .then(response => console.log(response))
+  };
+
   const optionsAvailables = stamps
     .filter(item => !(stampsActives.filter(active => active.stamp_id == item.id)).length);
 
@@ -39,18 +64,18 @@ const StampForm = ({ stampsActives }) => {
     <div className={css.stamp_form}>
       <div>
         <div>Sello</div>
-        <select>
-          { optionsAvailables.map((item, idx) => <option key={`option-${idx}`}>{item.name}</option>) }
+        <select ref={stampIdRef}>
+          { optionsAvailables.map((item, idx) => <option value={item.id} key={`option-${idx}`}>{item.name}</option>) }
         </select>
       </div>
       <div>
         <div>Fecha de expiracion</div>
         <div>
-          <input type="text" />
+          <input ref={expiredDateRef} type="date" />
         </div>
       </div>
 
-      <div className={css.stamp_btn_add}>Agregar</div>
+      <div onClick={onSend} className={css.stamp_btn_add}>Agregar</div>
     </div>
   );
 };
@@ -58,15 +83,17 @@ const StampForm = ({ stampsActives }) => {
 
 const Stamp = () => {
   const [ isActiveNewStamp, setIsActiveNewStamp ] = useState(false);
-  const { states, actions } = useContext(DashboardContext);
-  console.log('active', states.carActive.stamps);
+  const { states } = useContext(DashboardContext);
+  const items = states.carActive.stamps
+    .map((item, idx) => <Item key={`item-${idx}`} data={item} />
+  );
 
   return (
     <div>
-      {states.carActive.stamps.map((item, idx) => <Item key={`item-${idx}`} data={item} />)}
+      {items}
 
       <div onClick={() => { setIsActiveNewStamp(!isActiveNewStamp) }} className={css.stamp_add}>Agregar sello</div>
-      { isActiveNewStamp && <StampForm stampsActives={states.carActive.stamps} /> }
+      { isActiveNewStamp && <StampForm car={states.carActive} stampsActives={states.carActive.stamps} /> }
     </div>
   )
 };

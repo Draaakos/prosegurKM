@@ -20,6 +20,12 @@ const useDashboard = () => {
     onActiveDetails: (car) => {
       setCarActive(car);
       setIsMoreDetailsModalActive(true);
+    },
+    onFilter: (inputText) => {
+      const words = inputText.trim().split(/\s+/);
+      const regex = new RegExp(words.map(word => `(?=.*${word})`).join(''), 'i');
+      const list = cars.filter(item => regex.test(item.ppu));
+      setFilterCars(list);
     }
   };
 

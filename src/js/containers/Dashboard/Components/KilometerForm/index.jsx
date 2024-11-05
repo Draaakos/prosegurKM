@@ -12,8 +12,6 @@ const KilometerForm = ({ car, day }) => {
   const logId = day.id;
   const kmDate = day.date;
 
-  console.log('car.mileage)', car.mileage)
-
   const onSubmit = () => {
     const mileageAM = kilometerAMRef.current.value;
     const mileagePM = kilometerPMRef.current.value;

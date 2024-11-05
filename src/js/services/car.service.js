@@ -27,6 +27,15 @@ const carService = {
     const url = `/api/v1/cars/filter/services`;
     return http.get(url);
   },
+  addStampForCar(payload) {
+    const url = `/api/v1/cars/stamp/`;
+    return http.post(url, payload);
+  },
+  deleteStampForCar(payload) {
+    console.log('payload', payload)
+    const url = `/api/v1/cars/stamp/`;
+    return http.delete(url, payload);
+  }
 };
 
 

@@ -41,7 +41,7 @@ class CarKilometerLogView(View):
         log = get_object_or_404(CarKilometerLog, id=log_id)
         form = CarKilometerLogForm(data, instance=log)
 
-        self._send_notification_email()
+        # self._send_notification_email()
 
 
         if form.is_valid():

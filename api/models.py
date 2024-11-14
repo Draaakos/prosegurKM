@@ -1,6 +1,7 @@
 from datetime import datetime
 from django.db.models import Q
 from django.db import models
+from .tools import define_product_path
 
 
 class Account(models.Model):
@@ -17,18 +18,6 @@ class CarType(models.Model):
 
     def __str__(self):
         return f'{self.name}'
-
-
-class Document(models.Model):
-    name = models.CharField(max_length=50)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    def to_json(self):
-        return {
-            'id': self.id,
-            'name': self.name
-        }
 
 
 class Stamp(models.Model):
@@ -54,6 +43,40 @@ class Service(models.Model):
         return {
             'id': self.id,
             'name': self.name
+        }
+
+
+
+class DocumentType(models.Model):
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return f'{self.name}'
+
+    def to_json(self):
+        return {
+            'id': self.id,
+            'name': self.name
+        }
+
+
+
+class Document(models.Model):
+    upload = models.FileField(upload_to=define_product_path)
+    expired_date = models.DateField()
+    has_expired = models.BooleanField(default=False)
+    document_type = models.ForeignKey(DocumentType, on_delete=models.CASCADE, null=False, blank=False)
+
+    def __str__(self):
+        return self.document_type.name
+
+    def to_json(self):
+        return {
+            'id': self.id,
+            'name': self.document_type.name,
+            'path': f'/media/{self.upload.name}',
+            'expiredDate': self.expired_date.strftime("%d-%m-%Y"),
+            'hasExpired': self.has_expired
         }
 
 
@@ -93,6 +116,12 @@ class Car(models.Model):
             'service_id': self.service.id,
             'days': self.get_days_for_current_month_and_car(self)
         }
+
+
+
+class CarDocument(models.Model):
+    document = models.ForeignKey(Document, on_delete=models.CASCADE, null=False, blank=False)
+    car = models.ForeignKey(Car, on_delete=models.CASCADE, null=False, blank=False)
 
 
 class CarKilometerLog(models.Model):
@@ -135,20 +164,3 @@ class CarStamp(models.Model):
             'expired_date': self.expired_date.strftime('%d-%m-%Y')
         }
 
-
-class CarDocument(models.Model):
-    document = models.ForeignKey(Document, on_delete=models.CASCADE, null=False, blank=False)
-    car = models.ForeignKey(Car, on_delete=models.CASCADE, null=False, blank=False)
-    expired_date = models.DateTimeField()
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    def to_json():
-        document = self.document.to_json()
-
-        return {
-            'car_document_id': self.id,
-            'document_id': document['id'],
-            'name': document['name'],
-            # 'expired_date': self.expired_date.strftime('%d-%m-%Y')
-        }

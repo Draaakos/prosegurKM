@@ -40,6 +40,10 @@ const StampForm = ({ car, stampsActives }) => {
     {
       id: 3,
       name: "Azul"
+    },
+    {
+      id: 4,
+      name: "Amarillo"
     }
   ];
 

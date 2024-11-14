@@ -26,7 +26,11 @@ class CarView(View):
             for car in Car.objects.all():
                 item = car.to_json()
                 item['stamps'] = [ stamp.to_json() for stamp in CarStamp.objects.filter(car__id=car.id) ]
-                item['documents'] = [ document.to_json() for document in CarDocument.objects.filter(car__id=car.id) ]
+
+                item['documents'] = [
+                    car_document.document.to_json() for car_document in CarDocument.objects.filter(car__id=car.id)
+                ]
+
                 CarStamp.objects.filter(car__id=car.id)
                 car_list.append(item)
             return JsonResponse(car_list, safe=False)

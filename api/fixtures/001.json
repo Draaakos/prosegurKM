@@ -37,5 +37,99 @@
         "created_at": "2024-08-12T00:00:00Z",
         "updated_at": "2024-08-12T00:00:00Z"
     }
+  },
+  {
+    "model": "api.stamp",
+    "pk": 4,
+    "fields": {
+        "name": "Amarillo",
+        "color": "#ffd300",
+        "created_at": "2024-08-12T00:00:00Z",
+        "updated_at": "2024-08-12T00:00:00Z"
+    }
+  },
+  {
+    "model": "api.documenttype",
+    "pk": 1,
+    "fields": {
+      "name": "Revisión técnica"
+    }
+  },
+  {
+    "model": "api.documenttype",
+    "pk": 2,
+    "fields": {
+      "name": "Seguro Obligatorio"
+    }
+  },
+  {
+    "model": "api.documenttype",
+    "pk": 3,
+    "fields": {
+      "name": "Permiso de circulación"
+    }
+  },
+  {
+    "model": "api.documenttype",
+    "pk": 4,
+    "fields": {
+      "name": "Certificado de cuña"
+    }
+  },
+  {
+    "model": "api.documenttype",
+    "pk": 5,
+    "fields": {
+      "name": "Certificado GPS"
+    }
+  },
+  {
+    "model": "api.documenttype",
+    "pk": 6,
+    "fields": {
+      "name": "Certificado de instalación de dispositivos de seguridad"
+    }
+  },
+  {
+    "model": "api.documenttype",
+    "pk": 7,
+    "fields": {
+      "name": "Certificado de mantención"
+    }
+  },
+  {
+    "model": "api.documenttype",
+    "pk": 8,
+    "fields": {
+      "name": "Certificado 5 estrellas"
+    }
+  },
+  {
+    "model": "api.documenttype",
+    "pk": 9,
+    "fields": {
+      "name": "Certificado Instalación guardian"
+    }
+  },
+  {
+    "model": "api.documenttype",
+    "pk": 10,
+    "fields": {
+      "name": "Vencimiento de extintor"
+    }
+  },
+  {
+    "model": "api.documenttype",
+    "pk": 11,
+    "fields": {
+      "name": "Certificado de torque"
+    }
+  },
+  {
+    "model": "api.documenttype",
+    "pk": 12,
+    "fields": {
+      "name": "Certificado protección de cabina"
+    }
   }
 ]

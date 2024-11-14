@@ -126,18 +126,20 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.1/howto/static-files/
-
 STATIC_URL = '/static/'
+MEDIA_URL = '/media/'
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static-root')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
 
 STATICFILES_DIRS = [
-    BASE_DIR / "static",
+    os.path.join(BASE_DIR, 'static'),
+    os.path.join(BASE_DIR, 'media'),
 ]
 
-STATIC_ROOT = BASE_DIR / "staticfiles"
-
-# Default primary key field type
-# https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
+FIXTURE_DIRS = [
+    os.path.join(BASE_DIR, 'fixtures')
+]
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

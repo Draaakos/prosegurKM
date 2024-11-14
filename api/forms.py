@@ -5,7 +5,7 @@ from .models import Car, CarKilometerLog, CarStamp
 class CarForm(forms.ModelForm):
     class Meta:
         model = Car
-        fields = ['ppu', 'car_type', 'mileage', 'mileage_preventive', 'service']
+        fields = ['ppu', 'car_type', 'mileage', 'mileage_preventive_limit', 'mileage_preventive_notification', 'service']
         widgets = {
             'extinguisher': forms.DateTimeInput(attrs={'readonly': 'readonly'}),
         }

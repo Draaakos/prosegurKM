@@ -2,6 +2,7 @@ import json
 from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
 from django.views import View
+from api.models import Car
 from api.models import CarKilometerLog
 from api.forms import CarKilometerLogForm
 from api.services import EmailSender
@@ -37,11 +38,24 @@ class CarKilometerLogView(View):
 
     def put(self, request, log_id):
         data = json.loads(request.body)
-
         log = get_object_or_404(CarKilometerLog, id=log_id)
         form = CarKilometerLogForm(data, instance=log)
 
-        # self._send_notification_email()
+        is_pm = False
+        if float(data['mileage_pm']) > 0:
+            is_pm = True
+
+
+        car = Car.objects.get(pk=data['car'])
+
+        car_mileage_preventive_limit = car.mileage_preventive_limit
+        car_mileage_preventive_notification = car.mileage_preventive_notification
+
+        to_evaluation = float(data['mileage_pm']) if is_pm else float(data['mileage_am'])
+        notification = to_evaluation >= (car_mileage_preventive_limit - car_mileage_preventive_notification)
+
+        if notification:
+            self._send_notification_email(car)
 
 
         if form.is_valid():
@@ -55,31 +69,36 @@ class CarKilometerLogView(View):
         return JsonResponse({'message': 'Log deleted successfully!'}, status=204)
 
 
-    def _send_notification_email(self):
-        destination = 'orlando.andaur.c@gmail.com'
+    def _send_notification_email(self, car):
+        print('notificando...')
+        # destination = 'milton.lopez.c22@gmail.com'
+        destination = "orlando.andaur.c@gmail.com"
         source = settings.EMAIL_HOST_USER
-        subject = 'test'
+        subject = 'Notificacion de KM preventivo'
 
 
         content = """
             <section>
                 <h2>
-                    Felicidades {} pudimos validar tu compra!
+                    El auto con ppu paso el KM preventivo
                 </h2>
-
-                <table>
-                    <thead>
-                        <tr>
-                            <td style="padding: 1em;">Nombre</td>
-                            <td style="padding: 1em;">SKU</td>
-                            <td style="padding: 1em;">Precio</td>
-                        </tr>
-                    </thead>
-
-                    <tbody>{}</tbody>
-                </table>
             </section>
-        """.format('test', 'test')
+        """.format()
 
         sender = EmailSender(destination, source, subject, content)
         sender.send()
+
+
+
+
+#  <table>
+#     <thead>
+#         <tr>
+#             <td style="padding: 1em;">Nombre</td>
+#             <td style="padding: 1em;">SKU</td>
+#             <td style="padding: 1em;">Precio</td>
+#         </tr>
+#     </thead>
+
+#     <tbody>{}</tbody>
+# </table>

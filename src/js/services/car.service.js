@@ -32,7 +32,6 @@ const carService = {
     return http.post(url, payload);
   },
   deleteStampForCar(payload) {
-    console.log('payload', payload)
     const url = `/api/v1/cars/stamp/`;
     return http.delete(url, payload);
   }

@@ -117,9 +117,11 @@ USE_I18N = True
 USE_TZ = True
 
 
-EMAIL_HOST = os.getenv('EMAIL_HOST', 'smtp.gmail.com')
-EMAIL_HOST_USER = os.getenv('EMAIL_USER', 'api.km.no.reply@gmail.com')
-EMAIL_HOST_PASSWORD = os.getenv('EMAIL_PASSWORD', 'xakq onwj xsji gvnw')
+
+
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'api.km.no.reply@gmail.com'
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_PASSWORD', 'ytjt xjmr fwvk npbp')
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 

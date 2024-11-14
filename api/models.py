@@ -61,7 +61,8 @@ class Car(models.Model):
     ppu = models.CharField(max_length=50)
     car_type = models.ForeignKey(CarType, on_delete=models.CASCADE, null=False, blank=False)
     mileage = models.FloatField()
-    mileage_preventive = models.FloatField()
+    mileage_preventive_limit = models.FloatField()
+    mileage_preventive_notification = models.FloatField(default=5000)
     extinguisher = models.DateTimeField(auto_now=True)
     service = models.ForeignKey(Service, on_delete=models.CASCADE, null=False, blank=False)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -86,7 +87,8 @@ class Car(models.Model):
             'ppu': self.ppu,
             'type': self.car_type.name,
             'mileage': self.mileage,
-            'mileage_preventive': self.mileage_preventive,
+            'mileage_preventive_limit': self.mileage_preventive_limit,
+            'mileage_preventive_notification': self.mileage_preventive_notification,
             'service': self.service.name,
             'service_id': self.service.id,
             'days': self.get_days_for_current_month_and_car(self)

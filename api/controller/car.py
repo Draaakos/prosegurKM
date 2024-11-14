@@ -44,7 +44,8 @@ class CarView(View):
 
         car = Car.objects.get(pk=car_id)
         car.mileage = data['mileage']
-        car.mileage_preventive = data['mileage_preventive']
+        car.mileage_preventive_limit = data['mileage_preventive_limit']
+        car.mileage_preventive_notification = data['mileage_preventive_notification']
 
         if 'serviceId' in data:
             car.service_id = int(data['serviceId'])

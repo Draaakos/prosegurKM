@@ -27,10 +27,8 @@ const KilometerForm = ({ car, day }) => {
       newCar.mileage = mileageAM;
 
       service.addKMToCar(logId, carId, mileageAM, carMileage, 0, 0, kmDate)
-        .then(response => console.log(response));
 
-      service.updateCar(newCar)
-        .then(response => console.log(response));
+      service.updateCar(newCar).then(() => window.location.reload())
 
     } else {
       if(mileagePM < car.mileage) {
@@ -43,10 +41,9 @@ const KilometerForm = ({ car, day }) => {
 
 
       service.addKMToCar(logId, carId, day.mileage_am, day.prev_mileage_am, mileagePM, mileageAM, kmDate)
-        .then(response => console.log(response));
 
       service.updateCar(newCar)
-        .then(response => console.log(response));
+        .then(() => window.location.reload())
     }
   }
 

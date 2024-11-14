@@ -36,13 +36,13 @@ const InformationEditableInput = ({ text, onUpdateMileagePreventive }) => {
 
 
 const Row = ({ car, serviceOptions, onActiveDetails }) => {
-  const [ mileagePreventive, setMileagePreventive ] = useState(car.mileage_preventive);
-  console.log(mileagePreventive)
+  const [ mileagePreventive, setMileagePreventive ] = useState(car.mileage_preventive_limit);
 
   const onUpdateMileagePreventive = (value) => {
     setMileagePreventive(value);
     const payload = { ...car };
-    payload.mileage_preventive = value;
+    payload.mileage_preventive_limit = value;
+    payload.mileage_preventive_notification = car.mileage_preventive_notification;
     carService.updateCar(payload);
   };
 

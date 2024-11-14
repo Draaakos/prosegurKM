@@ -72,18 +72,18 @@ class CarKilometerLogView(View):
     def _send_notification_email(self, car):
         print('notificando...')
         # destination = 'milton.lopez.c22@gmail.com'
-        destination = "orlando.andaur.c@gmail.com"
+        destination = "milton.lopez.c22@gmail.com"
         source = settings.EMAIL_HOST_USER
-        subject = 'Notificacion de KM preventivo'
+        subject = f'Notificación de KM preventivo'
 
 
         content = """
             <section>
                 <h2>
-                    El auto con ppu paso el KM preventivo
+                    El vehículo con patente {} está próximo a alcanzar el límite para su mantenimiento preventivo de kilometraje.
                 </h2>
             </section>
-        """.format()
+        """.format(car.ppu)
 
         sender = EmailSender(destination, source, subject, content)
         sender.send()

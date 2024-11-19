@@ -1,4 +1,13 @@
 .document {
-    display: flex;
+    display: grid;
     justify-content: space-between;
+    grid-template-columns: .5fr .5fr .2fr;
+}
+
+.document > div {
+    text-align: left;
+}
+
+.form_content {
+    margin-top: 1em;
 }

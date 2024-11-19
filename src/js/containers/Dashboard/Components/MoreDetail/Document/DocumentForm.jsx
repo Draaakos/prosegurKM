@@ -21,19 +21,11 @@ const DocumentForm = ({ car }) => {
   const onSubmit = evt => {
     evt.preventDefault();
 
-
-    // console.log(documentTypeSelectedRef.current.value)
-    // console.log(isExpired)
-    // console.log(file.current.files[0])
-    // console.log(expiredDateRef.current.value)
-
     if(documentTypeSelectedRef.current.value) {
       if (!file.current.files[0]) {
         alert("Debes seleccionar un archivo");
         return;
       }
-
-      console.log(expiredDateRef)
 
       const form = new FormData();
       form.append('document_type', documentTypeSelectedRef.current.value);
@@ -42,12 +34,9 @@ const DocumentForm = ({ car }) => {
       form.append('has_expired', isExpired);
 
       documentService.uploadDocument(form, car.id)
-        .then(() => window.location.reload())
+        .then(() => window.location.reload());
     }
   }
-
-  console.log('documentTypes', documentTypes)
-
 
   return (
     <form className="form-register" encType="multipart/form-data" >
@@ -56,7 +45,7 @@ const DocumentForm = ({ car }) => {
       <select ref={documentTypeSelectedRef}>
         { documentTypes.map((item, idx) => <option value={item.id} key={`option-${idx}`}>{item.name}</option>)}
       </select>
-      <div className="form-register__checkbox" >
+      <div className="form-register__checkbox">
         <input onClick={() => setIsExpired(!isExpired)} ref={expiredRef} type="checkbox" />
         <label>Con fecha de expiración</label>
       </div>

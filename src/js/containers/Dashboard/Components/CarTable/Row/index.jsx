@@ -43,7 +43,8 @@ const Row = ({ car, serviceOptions, onActiveDetails }) => {
     const payload = { ...car };
     payload.mileage_preventive_limit = value;
     payload.mileage_preventive_notification = car.mileage_preventive_notification;
-    carService.updateCar(payload);
+    carService.updateCar(payload).then(() => window.location.reload());
+
   };
 
   const onUpdateService = (evt) => {
@@ -56,7 +57,7 @@ const Row = ({ car, serviceOptions, onActiveDetails }) => {
   const kmRest = KM_LIMIT - car.mileage;
   const preventiveItem = <img className={css.warning_icon} src={`/static/${VERSION}/images/generic/warning-triangle-solid.svg`} />;
 
-  const isWarningActivePrev = car.mileage >= (mileagePreventive - 1000);
+  const isWarningActivePrev = (car.mileage_preventive_limit - car.mileage_preventive_notification) < car.mileage;
   const isWarningActiveRest = kmRest < (KM_LIMIT * 0.10);
 
   const stamps = car.stamps.map((stamp, idx) =>

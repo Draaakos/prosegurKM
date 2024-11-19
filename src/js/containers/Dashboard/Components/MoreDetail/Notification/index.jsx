@@ -21,8 +21,6 @@ const Notificacion = () => {
       .then(() => window.location.reload());
   }
 
-  // const
-
   return (
     <div>
       <div className={css.item}>

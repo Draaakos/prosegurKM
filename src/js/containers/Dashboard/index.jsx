@@ -38,7 +38,7 @@ const Dashboard = () => {
           <h1 className={css.title}>Camionetas PROSEGUR</h1>
           <div className={css.panel}>
             <input onChange={(evt) => actions.onFilter(evt.target.value)} placeholder="buscar" type="text" />
-            {/* <button>Descargar Excel</button> */}
+            <button>Descargar Excel</button>
           </div>
           { states.filterCars.length && <CarTable data={states} actions={actions} /> }
         </div>

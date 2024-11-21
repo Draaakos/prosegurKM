@@ -34,7 +34,7 @@ const DocumentForm = ({ car }) => {
       form.append('has_expired', isExpired);
 
       documentService.uploadDocument(form, car.id)
-        .then(() => window.location.reload());
+        .then(window.location.reload());
     }
   }
 

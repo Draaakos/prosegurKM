@@ -18,7 +18,7 @@ const Notificacion = () => {
     payload.mileage_preventive_limit = payload.mileage_preventive_limit;
     payload.mileage_preventive_notification = mileagePreventiveNotification;
     carService.updateCar(payload)
-      .then(() => window.location.reload());
+      .then(window.location.reload());
   }
 
   return (

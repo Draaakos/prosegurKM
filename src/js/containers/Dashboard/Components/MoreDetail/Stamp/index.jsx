@@ -6,9 +6,7 @@ import css from './index.css';
 const Item = ({ data }) => {
   const onDeleteItem = () => {
     service.deleteStampForCar({ 'car_stamp_id': data.car_stamp_id })
-      .then(response => {
-        window.location.reload();
-      });
+      .then(window.location.reload());
   };
 
   return (
@@ -58,7 +56,7 @@ const StampForm = ({ car, stampsActives }) => {
     }
 
     service.addStampForCar(payload)
-      .then(response => console.log(response))
+      .then(window.location.reload())
   };
 
   const optionsAvailables = stamps

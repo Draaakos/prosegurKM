@@ -35,11 +35,12 @@ const http = {
   },
 
   _post(url, data){
-    fetch(url, {
+    return window.fetch(url, {
       method: 'POST',
       cache: 'no-cache',
       body: data
     })
+    .then(response => response.json());
   }
 };
 

@@ -118,7 +118,6 @@ class Car(models.Model):
         }
 
 
-
 class CarDocument(models.Model):
     document = models.ForeignKey(Document, on_delete=models.CASCADE, null=False, blank=False)
     car = models.ForeignKey(Car, on_delete=models.CASCADE, null=False, blank=False)

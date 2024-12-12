@@ -14,3 +14,17 @@
     color: white;
     padding: 1em;
 }
+
+.new_car {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.new_car > .icon {
+    display: flex;
+}
+
+.new_car:hover {
+    cursor: pointer;
+}

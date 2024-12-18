@@ -28,3 +28,27 @@
 .new_car:hover {
     cursor: pointer;
 }
+
+.logs {
+    margin-top: 2em;
+}
+
+.logs__title {
+    margin-bottom: 1em;
+    font-weight: bold;
+    font-size: 15px;
+    border-bottom: 1px solid #efefef;
+    padding-bottom: .5em;
+}
+
+.log {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1em;
+    border: 1px solid #efefef;
+    margin-bottom: 1em;
+    border-radius: 4px;
+    font-size: 10px;
+    padding: 1em;
+    font-weight: bold;
+}

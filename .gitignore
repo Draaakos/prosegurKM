@@ -4,3 +4,5 @@ env
 *.xlsx
 node_modules
 static
+staticfiles
+media

@@ -126,17 +126,20 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
 
+EMAIL_DESTINATION = 'orlando.andaur.c@gmail.com'
+
+
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'static-root')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
     os.path.join(BASE_DIR, 'media'),
 ]
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 FIXTURE_DIRS = [
     os.path.join(BASE_DIR, 'fixtures')

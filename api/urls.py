@@ -5,6 +5,8 @@ urlpatterns = [
     path('cars/', views.car_view, name='car_list_create'),
     path('cars/<int:car_id>/', views.car_view, name='car_detail'),
 
+    path('logs/', views.logs_view, name='logs'),
+
     path('car/<int:car_id>/document', views.car_document, name='car_document'),
     path('car/<int:car_id>/document/<int:document_id>', views.car_document, name='deleted_document'),
 

@@ -163,3 +163,18 @@ class CarStamp(models.Model):
             'expired_date': self.expired_date.strftime('%d-%m-%Y')
         }
 
+
+class NotificationLog(models.Model):
+    ppu = models.CharField(max_length=50)
+    notification_type = models.CharField(max_length=100)
+    was_checked = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    @property
+    def to_json(self):
+        return {
+            'ppu': self.ppu,
+            'type': self.notification_type,
+            'date': self.created_at.strftime('%d/%m/%Y %H:%M') if self.created_at else None
+        }

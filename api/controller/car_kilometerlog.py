@@ -3,9 +3,9 @@ from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
 from django.views import View
 from api.models import Car
-from api.models import CarKilometerLog
+from api.models import CarKilometerLog, NotificationLog
 from api.forms import CarKilometerLogForm
-from api.services import EmailSender
+from api.controller.notification import Notification
 from django.conf import settings
 
 
@@ -27,6 +27,7 @@ class CarKilometerLogView(View):
             logs = CarKilometerLog.objects.all().values()
             return JsonResponse(list(logs), safe=False)
 
+
     def post(self, request):
         data = json.loads(request.body)
 
@@ -35,6 +36,7 @@ class CarKilometerLogView(View):
             log = form.save()
             return JsonResponse({'message': 'Log created successfully!', 'log_id': log.id}, status=201)
         return JsonResponse({'errors': form.errors}, status=400)
+
 
     def put(self, request, log_id):
         data = json.loads(request.body)
@@ -52,10 +54,18 @@ class CarKilometerLogView(View):
         car_mileage_preventive_notification = car.mileage_preventive_notification
 
         to_evaluation = float(data['mileage_pm']) if is_pm else float(data['mileage_am'])
-        notification = to_evaluation >= (car_mileage_preventive_limit - car_mileage_preventive_notification)
 
-        if notification:
-            self._send_notification_email(car)
+        preventive_notification = to_evaluation >= (car_mileage_preventive_limit - car_mileage_preventive_notification)
+        exceded_notification = to_evaluation >= car.mileage_preventive_limit
+
+
+        if exceded_notification:
+            notification = Notification()
+            notification.send_exceded_km(car)
+        elif preventive_notification:
+            notification = Notification()
+            notification.send_preventive_km(car)
+
 
 
         if form.is_valid():
@@ -63,42 +73,8 @@ class CarKilometerLogView(View):
             return JsonResponse({'message': 'Log updated successfully!'})
         return JsonResponse({'errors': form.errors}, status=400)
 
+
     def delete(self, request, log_id):
         log = get_object_or_404(CarKilometerLog, id=log_id)
         log.delete()
         return JsonResponse({'message': 'Log deleted successfully!'}, status=204)
-
-
-    def _send_notification_email(self, car):
-        print('notificando...')
-        # destination = 'milton.lopez.c22@gmail.com'
-        destination = "milton.lopez.c22@gmail.com"
-        source = settings.EMAIL_HOST_USER
-        subject = f'Notificación de KM preventivo'
-
-
-        content = """
-            <section>
-                <h2>
-                    El vehículo con patente {} está próximo a alcanzar el límite para su mantenimiento preventivo de kilometraje.
-                </h2>
-            </section>
-        """.format(car.ppu)
-
-        sender = EmailSender(destination, source, subject, content)
-        sender.send()
-
-
-
-
-#  <table>
-#     <thead>
-#         <tr>
-#             <td style="padding: 1em;">Nombre</td>
-#             <td style="padding: 1em;">SKU</td>
-#             <td style="padding: 1em;">Precio</td>
-#         </tr>
-#     </thead>
-
-#     <tbody>{}</tbody>
-# </table>

@@ -15,6 +15,7 @@ class EmailSender(Thread):
         self.subject = subject
 
     def send(self):
+        print('sending email notification')
         self.start()
 
     def run(self):

@@ -4,6 +4,8 @@ from django.http import JsonResponse
 from api.models import Car, CarDocument, Document
 from api.forms import DocumentForm
 from ..tools import define_product_path
+from api.controller.notification import Notification
+
 
 class CarDocumentView(View):
     def post(self, request, **kwargs):
@@ -18,9 +20,13 @@ class CarDocumentView(View):
             car_document.car = car
             car_document.save()
 
+            notification = Notification()
+            notification.send_add_document(car)
+
             return JsonResponse({
                 'data': document.to_json()
             })
+
         else:
             return JsonResponse({
                 'msg': 'error'
@@ -35,6 +41,9 @@ class CarDocumentView(View):
 
         document = Document.objects.get(pk=document_id)
         document.delete()
+
+        notification = Notification()
+        notification.send_remove_document(car_document.car)
 
         return JsonResponse({
             "message": "Documento eliminado correctamente",

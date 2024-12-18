@@ -12,3 +12,12 @@
 .content {
     padding: 1em;
 }
+
+
+.searcher {
+    width: 100%;
+    max-width: 400px;
+    padding: .5em 1em;
+    border-radius: 5px;
+    border: 1px solid #777;
+}

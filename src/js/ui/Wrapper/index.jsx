@@ -2,6 +2,108 @@ import { useEffect, useState } from 'react';
 import css from './index.css';
 import Modal from 'ui/Modal';
 import logService from '../../services/log.service.js';
+import carService from '../../services/car.service.js';
+
+
+const NewCar = () => {
+  const [carTypes, setCarTypes] = useState([]);
+
+  useEffect(() => {
+    carService.fetchCarTypes().then(response => setCarTypes(response.car_types));
+  }, []);
+
+  const [carData, setCarData] = useState({
+    ppu: '',
+    type: '',
+    date: ''
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setCarData(prevData => ({
+      ...prevData,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (!carData.ppu || !carData.type) {
+        console.error('PPU y tipo de coche son requeridos.');
+        return;
+    }
+
+    const jsonData = {
+      ppu: carData.ppu,
+      car_type: carData.type,
+      mileage: carData.mileage || 0,
+      mileage_preventive_limit: carData.mileage_preventive_limit || 0,
+      mileage_preventive_notification: carData.mileage_preventive_notification || 5000,
+      service: carData.service || 1
+    };
+
+    carService.addCar(jsonData)
+      .then(response => {
+          if (response.errors) {
+              console.error('Error:', response.errors);
+          } else {
+              console.log('Success:', response);
+          }
+      })
+      .catch((error) => {
+          console.error('Error:', error);
+      });
+  };
+
+  return (
+    <form className={css.new_car_form} onSubmit={handleSubmit}>
+      <h1 className={css.form_title}>Agregar Nuevo Vehículo</h1>
+      <div className={css.form_group}>
+        <label htmlFor="ppu" className={css.form_label}>PPU</label>
+        <input
+          type="text"
+          id="ppu"
+          name="ppu"
+          value={carData.ppu}
+          onChange={handleChange}
+          className={css.form_input}
+          placeholder="Enter PPU"
+          required
+        />
+      </div>
+      <div className={css.form_group}>
+        <label htmlFor="type" className={css.form_label}>Type</label>
+        <select
+          id="type"
+          name="type"
+          value={carData.type}
+          onChange={handleChange}
+          className={css.form_input}
+          required
+        >
+          <option value="" disabled>Select Type</option>
+          {carTypes.map((type) => (
+            <option key={type.id} value={type.id}>{type.name}</option>
+          ))}
+        </select>
+      </div>
+      <div className={css.form_group}>
+        <label htmlFor="date" className={css.form_label}>Date</label>
+        <input
+          type="date"
+          id="date"
+          name="date"
+          value={carData.date}
+          onChange={handleChange}
+          className={css.form_input}
+          required
+        />
+      </div>
+      <button type="submit" className={css.submit_button}>Add Car</button>
+    </form>
+  );
+};
 
 
 const Log = ({ data }) => {
@@ -52,7 +154,7 @@ const Wrapper = ({ children }) => {
 
   return(
     <div className={css.wrapper}>
-      { isActiveNewCar && <Modal onClose={() => setIsActiveNewCar(false)} /> }
+      { isActiveNewCar && <Modal onClose={() => setIsActiveNewCar(false)}><NewCar /></Modal> }
 
       <div>
         <LeftBar onActiveModal={() => setIsActiveNewCar(true)}/>

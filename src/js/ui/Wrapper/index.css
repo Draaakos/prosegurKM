@@ -52,3 +52,63 @@
     padding: 1em;
     font-weight: bold;
 }
+
+
+.new_car_form {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    /* background-color: #2a2f3a; */
+    padding: 2em;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.form_title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 1em;
+    color: #ffffff;
+}
+
+.form_group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form_label {
+    font-size: 14px;
+    margin-bottom: 0.5em;
+    color: #ffffff;
+}
+
+.form_input {
+    padding: 0.5em;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.form_input:focus {
+    border-color: #66afe9;
+    outline: none;
+    box-shadow: 0 0 8px rgba(102, 175, 233, 0.6);
+}
+
+.submit_button {
+    padding: 0.75em;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.submit_button:hover {
+    background-color: #45a049;
+}
+
+.form_title {
+    color: #555;
+}

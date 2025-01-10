@@ -18,4 +18,6 @@ urlpatterns = [
     path('cars/filter/services', views.service_car_list, name='service_car_list'),
 
     path('document/types', views.document_type_list, name='document_type_list'),
+
+    path('car/types', views.car_type_list, name='car_type_list'),
 ]

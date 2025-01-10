@@ -12,8 +12,6 @@ import css from "./index.css";
 const Dashboard = () => {
   const { states, actions } = useDashboard();
 
-  console.log('states', states);
-
   return (
     <DashboardContext.Provider value={{ states, actions }}>
       <Wrapper>

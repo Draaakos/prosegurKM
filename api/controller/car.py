@@ -37,7 +37,9 @@ class CarView(View):
 
 
     def post(self, request):
-        form = CarForm(request.POST)
+        data = json.loads(request.body)
+        form = CarForm(data)
+
         if form.is_valid():
             car = form.save()
             return JsonResponse({'message': 'Car created successfully!', 'car_id': car.id}, status=201)

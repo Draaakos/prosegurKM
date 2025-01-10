@@ -34,6 +34,14 @@ const carService = {
   deleteStampForCar(payload) {
     const url = `/api/v1/cars/stamp/`;
     return http.delete(url, payload);
+  },
+  addCar(carData) {
+    const url = '/api/v1/cars/';
+    return http.post(url, carData);
+  },
+  fetchCarTypes() {
+    const url = `/api/v1/car/types`;
+    return http.get(url);
   }
 };
 

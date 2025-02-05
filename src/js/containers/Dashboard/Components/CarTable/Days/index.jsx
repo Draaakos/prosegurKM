@@ -154,7 +154,8 @@ const Days = ({ car, actions }) => {
           {
             dayList.map((day, idx) =>
               <Day
-              isEditable={idx >= lastDayUpdatedIdx}
+                isEditable={day.is_editable}
+                // isEditable={idx >= lastDayUpdatedIdx}
               // isEditable={idx >= lastDayUpdatedIdx && activeMonth >= currentMonth}
                 key={`day-${idx}`} day={day}
                 onClick={onClick}

@@ -28,9 +28,13 @@
     width: 100%;
 }
 
+.name {
+    width: 100px;
+}
 
 .expired {
     padding: 0 1em;
+    width: 200px;
 }
 
 
@@ -64,4 +68,12 @@
     cursor: pointer;
     background-color: #ffd300;
     color: black;
+}
+
+.item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #efefef;
+    padding: .5em 0;
 }

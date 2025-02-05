@@ -10,14 +10,20 @@ const Item = ({ data }) => {
   };
 
   return (
-   <div className={css.stamps}>
-      <div className={css.stamp} style={{ backgroundColor: data.color }}></div>
-      <div>Sello: {data.name}</div>
-      <div className={css.expired}>expira: {data.expired_date}</div>
-      <div className={css.delete} onClick={onDeleteItem}>
-        <img src={`/static/${VERSION}/images/generic/trash-solid.svg`} />
+    <div className={css.item}>
+      <div className={css.stamps}>
+        <div className={css.stamp} style={{ backgroundColor: data.color }}></div>
+        <div className={css.name}>Sello: {data.name}</div>
+        <div className={css.expired}>expira: {data.expired_date}</div>
+        <div className={css.delete} onClick={onDeleteItem}>
+          <img src={`/static/${VERSION}/images/generic/trash-solid.svg`} />
+        </div>
       </div>
-   </div>
+      <div>
+        { data.is_expired && <img src={`/static/${VERSION}/images/generic/warning-triangle-solid.svg`} /> }
+      </div>
+    </div>
+
   );
 };
 

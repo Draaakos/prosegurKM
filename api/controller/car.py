@@ -1,4 +1,5 @@
 import json
+from datetime import datetime
 from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
 from django.views import View
@@ -22,11 +23,23 @@ class CarView(View):
             }
             return JsonResponse(data)
         else:
-            car_list = []
-            for car in Car.objects.all():
-                item = car.to_json()
-                item['stamps'] = [ stamp.to_json() for stamp in CarStamp.objects.filter(car__id=car.id) ]
+            now_date = datetime.now()
 
+            car_list = []
+            for car in Car.objects.filter(is_active=True):
+                item = car.to_json()
+
+
+                stamps = []
+                for stamp in CarStamp.objects.filter(car__id=car.id):
+                    is_expired = False
+
+                    if stamp.expired_date.replace(tzinfo=None) < now_date:
+                        is_expired = True
+
+                    stamps.append(stamp.to_json(is_expired))
+
+                item['stamps'] = stamps
                 item['documents'] = [
                     car_document.document.to_json() for car_document in CarDocument.objects.filter(car__id=car.id)
                 ]
@@ -62,5 +75,7 @@ class CarView(View):
 
     def delete(self, request, car_id):
         car = get_object_or_404(Car, id=car_id)
-        car.delete()
-        return JsonResponse({'message': 'Car deleted successfully!'}, status=204)
+        car.is_active = False
+        car.save()
+
+        return JsonResponse({'message': 'Car deleted successfully!'})

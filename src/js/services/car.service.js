@@ -42,6 +42,10 @@ const carService = {
   fetchCarTypes() {
     const url = `/api/v1/car/types`;
     return http.get(url);
+  },
+  deleteCar(carId) {
+    const url = `/api/v1/cars/${carId}/`;
+    return http.delete(url);
   }
 };
 

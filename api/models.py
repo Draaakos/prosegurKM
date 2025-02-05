@@ -90,23 +90,42 @@ class Car(models.Model):
     service = models.ForeignKey(Service, on_delete=models.CASCADE, null=False, blank=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    is_active = models.BooleanField(default=True)
 
-    def get_days_for_current_month_and_car(self, car):
+    def get_days_for_current_month_and_car(self):
+        last_day_updated = self.get_last_day_updated_idx()
+
         now = datetime.now()
         year = now.year
         month = now.month
 
         days = CarKilometerLog.objects.filter(
-            car=car,
+            car=self,
             mileage_date__year=year,
             mileage_date__month=month
         )
 
-        return [ day.to_json() for day in days ]
+        days_processed = []
+        for day in days:
+            is_editable = True
+            if last_day_updated is not None:
+                is_editable = last_day_updated <= day.mileage_date
+
+            days_processed.append(day.to_json(is_editable))
+        return days_processed
 
     def get_last_day_updated_idx(self):
-        days = CarKilometerLog.objects.filter(car=self).filter(mileage_am__gt=0).filter(mileage_pm__gt=0).order_by('-mileage_date')
-        return days[0].mileage_date.strftime('%d-%m-%Y') if days.exists() else None
+        days_am = CarKilometerLog.objects.filter(car=self).filter(mileage_am__gt=0).order_by('-mileage_date')
+        days_pm = CarKilometerLog.objects.filter(car=self).filter(mileage_pm__gt=0).order_by('-mileage_date')
+
+        if days_am.exists():
+            return days_am[0].mileage_date
+        elif days_pm.exists():
+            return days_pm[0].mileage_date
+        else:
+            return None
+
+
 
     def to_json(self):
         return {
@@ -118,8 +137,7 @@ class Car(models.Model):
             'mileage_preventive_notification': self.mileage_preventive_notification,
             'service': self.service.name,
             'service_id': self.service.id,
-            'days': self.get_days_for_current_month_and_car(self),
-            'lastDayUpdated': self.get_last_day_updated_idx()
+            'days': self.get_days_for_current_month_and_car()
         }
 
 
@@ -138,7 +156,7 @@ class CarKilometerLog(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    def to_json(self):
+    def to_json(self, is_editable = True):
         return {
             'id': self.id,
             'prev_mileage_am': self.prev_mileage_am,
@@ -146,7 +164,8 @@ class CarKilometerLog(models.Model):
             'mileage_am': self.mileage_am,
             'mileage_pm': self.mileage_pm,
             'date': self.mileage_date,
-            'dateFormmatted': self.mileage_date.strftime('%d-%m-%Y')
+            'dateFormmatted': self.mileage_date.strftime('%d-%m-%Y'),
+            'is_editable': is_editable
         }
 
 
@@ -157,7 +176,7 @@ class CarStamp(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    def to_json(self):
+    def to_json(self, is_expired = False):
         stamp = self.stamp.to_json()
 
         return {
@@ -165,6 +184,7 @@ class CarStamp(models.Model):
             'stamp_id': stamp['id'],
             'color': stamp['color'],
             'name': stamp['name'],
+            'is_expired': is_expired,
             'expired_date': self.expired_date.strftime('%d-%m-%Y')
         }
 

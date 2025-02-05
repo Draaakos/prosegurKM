@@ -6,5 +6,5 @@ from api.models import NotificationLog
 
 class LogsView(View):
     def get(self, request):
-        logs = [ log.to_json for log in NotificationLog.objects.all().order_by('-created_at') ]
+        logs = [ log.to_json for log in NotificationLog.objects.all().order_by('-created_at')[:10] ]
         return JsonResponse({ 'logs': logs })

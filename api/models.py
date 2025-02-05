@@ -104,6 +104,10 @@ class Car(models.Model):
 
         return [ day.to_json() for day in days ]
 
+    def get_last_day_updated_idx(self):
+        days = CarKilometerLog.objects.filter(car=self).filter(mileage_am__gt=0).filter(mileage_pm__gt=0).order_by('-mileage_date')
+        return days[0].mileage_date.strftime('%d-%m-%Y') if days.exists() else None
+
     def to_json(self):
         return {
             'id': self.id,
@@ -114,7 +118,8 @@ class Car(models.Model):
             'mileage_preventive_notification': self.mileage_preventive_notification,
             'service': self.service.name,
             'service_id': self.service.id,
-            'days': self.get_days_for_current_month_and_car(self)
+            'days': self.get_days_for_current_month_and_car(self),
+            'lastDayUpdated': self.get_last_day_updated_idx()
         }
 
 

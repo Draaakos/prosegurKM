@@ -3,6 +3,7 @@ from .controller.car_kilometerlog import CarKilometerLogView
 from .controller.selector import fetch_car_service_list, fetch_document_type_list, fetch_car_type_list
 from .controller.carstamp import CarStampView
 from .controller.car_document import CarDocumentView
+from .controller.logs_month_car import LogsMonthCarView
 from .controller.logs import LogsView
 
 
@@ -19,4 +20,6 @@ document_type_list = fetch_document_type_list
 
 car_type_list = fetch_car_type_list
 
+
 logs_view = LogsView.as_view()
+logs_month_car_view = LogsMonthCarView.as_view()

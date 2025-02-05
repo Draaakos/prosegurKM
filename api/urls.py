@@ -6,6 +6,7 @@ urlpatterns = [
     path('cars/<int:car_id>/', views.car_view, name='car_detail'),
 
     path('logs/', views.logs_view, name='logs'),
+    path('logs/<int:year>/<int:month>/car/<int:car_id>/', views.logs_month_car_view, name='logs_month_car_view'),
 
     path('car/<int:car_id>/document', views.car_document, name='car_document'),
     path('car/<int:car_id>/document/<int:document_id>', views.car_document, name='deleted_document'),

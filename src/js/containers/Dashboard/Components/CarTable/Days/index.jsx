@@ -149,7 +149,7 @@ const Days = ({ car, actions }) => {
         <div className={css.month_title}>{formatDateToString(dayList[0].dateFormmatted)}</div>
       </div>
       <div className={css.days_container}>
-        <button onClick={() => onUpdateDayList(dayList[0].dateFormmatted, -1)}>{"<"}</button>
+        <button className={css.prev_month} onClick={() => onUpdateDayList(dayList[0].dateFormmatted, -1)}>{"<"}</button>
         <div className={css.days}>
           {
             dayList.map((day, idx) =>
@@ -163,7 +163,7 @@ const Days = ({ car, actions }) => {
             )
           }
         </div>
-        <button onClick={() => onUpdateDayList(dayList[0].dateFormmatted, 1)}>{">"}</button>
+        <button className={css.next_month} onClick={() => onUpdateDayList(dayList[0].dateFormmatted, 1)}>{">"}</button>
         <div className={css.month_total}>KM recorridos en el mes: {formatMilesSeparator(getTotalMileageInMonth())}</div>
       </div>
     </div>

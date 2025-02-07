@@ -77,3 +77,16 @@
     display: grid;
     grid-template-columns: repeat(2, 1fr);
 }
+
+
+.prev_month,
+.next_month  {
+    background-color: #ffd300   ;
+    color: black;
+    border: 1px solid #555;
+    border-radius: 5px;
+    padding: 0 .5em;
+    margin: 0 .5em;
+    cursor: pointer;
+    font-weight: bold;
+}

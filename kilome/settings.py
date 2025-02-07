@@ -145,7 +145,7 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
 
-EMAIL_DESTINATION = 'orlando.andaur.c@gmail.com'
+EMAIL_DESTINATION = 'milton.lopez.c22@gmail.com'
 
 
 STATIC_URL = '/static/'

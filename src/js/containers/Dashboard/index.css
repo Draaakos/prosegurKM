@@ -21,3 +21,14 @@
     border-radius: 5px;
     border: 1px solid #777;
 }
+
+.download_excel {
+    background-color: #202938;
+    color: white;
+    border: 1px solid #555;
+    border-radius: 5px;
+    padding: 0 .5em;
+    margin: 0 .5em;
+    cursor: pointer;
+    font-weight: bold;
+}

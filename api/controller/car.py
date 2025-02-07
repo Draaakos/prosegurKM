@@ -1,5 +1,5 @@
 import json
-from datetime import datetime
+from datetime import datetime, timedelta
 from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
 from django.views import View
@@ -23,7 +23,8 @@ class CarView(View):
             }
             return JsonResponse(data)
         else:
-            now_date = datetime.now()
+            days_to_expire = 25
+            now_date = datetime.now() + timedelta(days=days_to_expire)
 
             car_list = []
             for car in Car.objects.filter(is_active=True):
@@ -40,9 +41,26 @@ class CarView(View):
                     stamps.append(stamp.to_json(is_expired))
 
                 item['stamps'] = stamps
-                item['documents'] = [
-                    car_document.document.to_json() for car_document in CarDocument.objects.filter(car__id=car.id)
-                ]
+
+
+
+                # item['documents'] = [
+                #     car_document.document.to_json() for car_document in CarDocument.objects.filter(car__id=car.id)
+                # ]
+
+                documents = []
+                for car_document in CarDocument.objects.filter(car__id=car.id, is_active=True):
+                    is_expired = False
+
+                    if car_document.document.has_expired:
+                        validate_date = car_document.document.expired_date.replace(tzinfo=None)
+
+                        if validate_date < now_date:
+                            is_expired = True
+
+                    documents.append(car_document.document.to_json(is_expired))
+
+                item['documents'] = documents
 
                 CarStamp.objects.filter(car__id=car.id)
                 car_list.append(item)

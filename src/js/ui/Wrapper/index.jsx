@@ -100,7 +100,7 @@ const NewCar = () => {
           required
         />
       </div>
-      <button type="submit" className={css.submit_button}>Add Car</button>
+      <button className={css.submit_button} type="submit">Agregar Vehículo</button>
     </form>
   );
 };

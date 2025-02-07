@@ -1,12 +1,20 @@
 import { useContext, useState } from 'react';
 import { DashboardContext } from '../../../context.js';
 import DocumentForm from './DocumentForm';
+import documentService from '../../../../../services/document.service.js';
 import css from './index.css';
 
 
 const Document = () => {
   const [ isActiveForm, setIsActiveForm ] = useState(false);
   const { states } = useContext(DashboardContext);
+
+  const deleteDocument = (documentId) => {
+    if(confirm('¿Estás seguro de eliminar este documento?')) {
+      documentService.deleteDocument(states.carActive.id, documentId)
+        .then(window.location.reload());
+    }
+  }
 
   const documents = states.carActive.documents
     .map((document, idx) => {
@@ -19,8 +27,15 @@ const Document = () => {
       return (
         <div className={css.document} key={`document-${idx}`}>
           <div>{document.name}</div>
-          <div>{ document.hasExpired ? document.expiredDate : 'Sin expiración'}</div>
-          <a href={document.path} download>descargar</a>
+          <div className={css.expired_date}>
+            <div>{ document.hasExpired ? document.expiredDate : 'Sin expiración'}</div>
+            <div>{ document.isExpired && <img src={`/static/${VERSION}/images/generic/warning-triangle-solid.svg`} /> }</div>
+          </div>
+          {/* <a href={document.path} download>descargar</a> */}
+          <div className={css.content_actions}>
+            <a href={document.path} className={css.download}><img src={`/static/${VERSION}/images/generic/download.svg`} /></a>
+            <div className={css.delete} onClick={() => deleteDocument(document.id)}><img src={`/static/${VERSION}/images/generic/trash-solid.svg`} /></div>
+          </div>
         </div>
       );
     });

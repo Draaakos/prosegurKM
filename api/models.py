@@ -63,20 +63,21 @@ class DocumentType(models.Model):
 
 class Document(models.Model):
     upload = models.FileField(upload_to=define_product_path)
-    expired_date = models.DateField()
+    expired_date = models.DateTimeField()
     has_expired = models.BooleanField(default=False)
     document_type = models.ForeignKey(DocumentType, on_delete=models.CASCADE, null=False, blank=False)
 
     def __str__(self):
         return self.document_type.name
 
-    def to_json(self):
+    def to_json(self, is_expired):
         return {
             'id': self.id,
             'name': self.document_type.name,
             'path': f'/media/{self.upload.name}',
             'expiredDate': self.expired_date.strftime("%d-%m-%Y"),
-            'hasExpired': self.has_expired
+            'hasExpired': self.has_expired,
+            'isExpired': is_expired
         }
 
 
@@ -144,6 +145,7 @@ class Car(models.Model):
 class CarDocument(models.Model):
     document = models.ForeignKey(Document, on_delete=models.CASCADE, null=False, blank=False)
     car = models.ForeignKey(Car, on_delete=models.CASCADE, null=False, blank=False)
+    is_active = models.BooleanField(default=True)
 
 
 class CarKilometerLog(models.Model):

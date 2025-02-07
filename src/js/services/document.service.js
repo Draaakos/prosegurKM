@@ -15,7 +15,7 @@ const documentService = {
   deleteDocument(carId, documentId) {
     const url = `/api/v1/car/${carId}/document/${documentId}`;
 
-    return onDelete(url).then(response => response.json());
+    return http.delete(url);
   },
 };
 

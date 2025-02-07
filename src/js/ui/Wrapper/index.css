@@ -105,10 +105,11 @@
     cursor: pointer;
 }
 
-.submit_button:hover {
-    background-color: #45a049;
-}
-
 .form_title {
     color: #555;
+}
+
+.submit_button {
+    background-color: #202938;
+    color: white;
 }

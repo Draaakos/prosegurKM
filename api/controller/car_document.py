@@ -37,10 +37,8 @@ class CarDocumentView(View):
         car_id = kwargs.get('car_id')
 
         car_document = CarDocument.objects.get(document_id=document_id, car_id=car_id)
-        car_document.delete()
-
-        document = Document.objects.get(pk=document_id)
-        document.delete()
+        car_document.is_active = False
+        car_document.save()
 
         notification = Notification()
         notification.send_remove_document(car_document.car)
@@ -54,27 +52,5 @@ class CarDocumentView(View):
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-    # def handle_uploaded_file(self, f):
-    #     filename = define_product_path('', f.name)
-    #     path = f'media/{filename}'
-    #     with open(path, 'wb+') as destination:
-    #         for chunk in f.chunks():
-    #             destination.write(chunk)
-
-    #     return {
-    #         'path': path,
-    #         'filename': filename
-    #     }
 
 

@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+    app:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: kilome-app
+        ports:
+            - 8000:8000
+        environment:
+            mode: 'production'
+            POSTGRES_USER: ${DB_USER}
+            POSTGRES_PASSWORD: ${DB_PASSWORD}
+            POSTGRES_DB: ${DB_NAME}
+            POSTGRES_HOST: postgis
+            POSTGRES_PORT: 5432
+        volumes:
+            - ./staticfiles:/app/staticfiles
+            - ./media:/app/media
+        depends_on:
+            - postgis
+        networks:
+            - default
+    postgis:
+        image: postgres:latest
+        container_name: kilome-db
+        ports:
+            - 5432:5432
+        environment:
+            POSTGRES_USER: ${DB_USER}
+            POSTGRES_PASSWORD: ${DB_PASSWORD}
+            POSTGRES_DB: ${DB_NAME}
+        volumes:
+            - ./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
+        networks:
+            - default
+    nginx:
+        image: nginx:latest
+        container_name: kilome-nginx
+        ports:
+            - 80:80
+        volumes:
+            - ./staticfiles:/app/staticfiles
+            - ./media:/app/media
+            - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+        depends_on:
+            - app
+        networks:
+            - default
+networks:
+    default:
+        driver: bridge

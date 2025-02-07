@@ -27,8 +27,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-@c4b&fuf*2z-*_)qzer+qqzd9tkh7c%6nwf&e($#*0m&_87rk2'
 
+
 # SECURITY WARNING: don't run with debug turned on in production!
+mode = os.getenv('mode', 'development')
 DEBUG = True
+
+
+if mode == 'production':
+    DEBUG = False
+
 
 ALLOWED_HOSTS = ['*']
 # APPEND_SLASH = False
@@ -86,14 +93,16 @@ DATABASES = {}
 
 
 if DEBUG == False:
+    print('connecting in production mode')
+
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
-            'NAME': os.getenv('DB_NAME'),
-            'USER': os.getenv('DB_USER'),
-            'PASSWORD': os.getenv('DB_PASSWORD'),
-            'HOST': os.getenv('DB_HOST'),
-            'PORT': os.getenv('DB_PORT', '5432'),
+            'NAME': os.getenv('POSTGRES_DB'),
+            'USER': os.getenv('POSTGRES_USER'),
+            'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
+            'HOST': os.getenv('POSTGRES_HOST', 'postgis'),
+            'PORT': os.getenv('POSTGRES_PORT', '5432'),
         }
     }
 else:
@@ -147,18 +156,17 @@ EMAIL_USE_TLS = True
 
 EMAIL_DESTINATION = 'milton.lopez.c22@gmail.com'
 
-
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
     os.path.join(BASE_DIR, 'media'),
+    # No es necesario incluir 'media' aquí si no es parte de los archivos estáticos
 ]
-
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 FIXTURE_DIRS = [
     os.path.join(BASE_DIR, 'fixtures')

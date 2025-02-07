@@ -1,9 +1,24 @@
+# Start of Selection
+# Environment variables and sensitive files
 env
+# SQLite database files
 *.sqlite
+# Data files
 *.csv
 *.xlsx
-node_modules
-static
-staticfiles
-media
-.vercel
+# Node.js dependencies
+node_modules/
+# Static files
+/static/
+/staticfiles/
+/media/
+# Vercel deployment files
+.vercel/
+# Python cache files
+__pycache__/
+*.py[cod]
+# Logs
+*.log
+# Coverage reports
+.coverage
+# End of Selection

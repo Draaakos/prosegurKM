@@ -17,7 +17,3 @@ mkdir -p static/$HASH_FOLDER/webfonts
 
 cp -rvf src/images static/$HASH_FOLDER/images
 cp -rvf src/fonts static/$HASH_FOLDER/fonts
-# cp -rfv src/client/assets/webfonts/* static/$HASH_FOLDER/webfonts
-# cp -vrf src/client/js/vendor/* static/$HASH_FOLDER/js/vendor
-
-# cat node_modules/react-toastify/dist/ReactToastify.min.css >> static/$HASH_FOLDER/css/colors.css

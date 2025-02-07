@@ -21,8 +21,8 @@ class CarType(models.Model):
 
 
 class Stamp(models.Model):
-    name = models.CharField(max_length=50)
-    color = models.CharField(max_length=50)
+    name = models.CharField(max_length=100)
+    color = models.CharField(max_length=100)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -35,7 +35,7 @@ class Stamp(models.Model):
 
 
 class Service(models.Model):
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=100)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -48,7 +48,7 @@ class Service(models.Model):
 
 
 class DocumentType(models.Model):
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=100)
 
     def __str__(self):
         return f'{self.name}'
@@ -82,7 +82,7 @@ class Document(models.Model):
 
 
 class Car(models.Model):
-    ppu = models.CharField(max_length=50)
+    ppu = models.CharField(max_length=100)
     car_type = models.ForeignKey(CarType, on_delete=models.CASCADE, null=False, blank=False)
     mileage = models.FloatField()
     mileage_preventive_limit = models.FloatField()
@@ -192,7 +192,7 @@ class CarStamp(models.Model):
 
 
 class NotificationLog(models.Model):
-    ppu = models.CharField(max_length=50)
+    ppu = models.CharField(max_length=100)
     notification_type = models.CharField(max_length=100)
     was_checked = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)

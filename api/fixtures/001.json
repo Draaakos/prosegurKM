@@ -1,14 +1,5 @@
 [
   {
-      "model": "api.service",
-      "pk": 1,
-      "fields": {
-          "name": "Disponible",
-          "created_at": "2024-08-12T00:00:00Z",
-          "updated_at": "2024-08-12T00:00:00Z"
-      }
-  },
-  {
     "model": "api.stamp",
     "pk": 1,
     "fields": {

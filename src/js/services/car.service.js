@@ -46,6 +46,10 @@ const carService = {
   deleteCar(carId) {
     const url = `/api/v1/cars/${carId}/`;
     return http.delete(url);
+  },
+  generateDays(payload) {
+    const url = `/api/v1/month/`;
+    return http.post(url, payload);
   }
 };
 

@@ -20,5 +20,5 @@ class CarForm(forms.ModelForm):
 class CarKilometerLogForm(forms.ModelForm):
     class Meta:
         model = CarKilometerLog
-        fields = ['car', 'prev_mileage_am', 'mileage_am', 'prev_mileage_pm', 'mileage_pm', 'mileage_date']
+        fields = ['car', 'prev_mileage_am', 'mileage_am', 'prev_mileage_pm', 'mileage_pm', 'mileage_date', 'last_edition_by']
 

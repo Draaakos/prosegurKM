@@ -31,6 +31,13 @@ class LogsMonthCarView(View):
         days_am = CarKilometerLog.objects.filter(car=car_id).filter(mileage_am__gt=0).order_by('-mileage_date')
         days_pm = CarKilometerLog.objects.filter(car=car_id).filter(mileage_pm__gt=0).order_by('-mileage_date')
 
+        if len(days_pm) > 0:
+            return days_pm[0].mileage_date
+        elif len(days_am) > 0:
+            return days_am[0].mileage_date
+        else:
+            return None
+
         if days_am.exists():
             return days_am[0].mileage_date
         elif days_pm.exists():

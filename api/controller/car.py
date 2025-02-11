@@ -5,6 +5,7 @@ from django.http import JsonResponse
 from django.views import View
 from api.models import Car, CarStamp, CarDocument
 from api.forms import CarForm
+from api.services import generate_kilometer_logs_for_current_month
 
 
 class CarView(View):
@@ -73,6 +74,11 @@ class CarView(View):
 
         if form.is_valid():
             car = form.save()
+            now = datetime.now()
+            year = now.year
+            month = now.month
+
+            generate_kilometer_logs_for_current_month(car.id, year, month)
             return JsonResponse({'message': 'Car created successfully!', 'car_id': car.id}, status=201)
         return JsonResponse({'errors': form.errors}, status=400)
 

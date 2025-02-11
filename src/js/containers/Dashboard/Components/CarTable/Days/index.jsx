@@ -1,47 +1,15 @@
 import { useEffect, useState } from 'react';
-import classNames from 'classnames';
 import { formatMilesSeparator } from 'utils/number';
-import css from './index.css';
 import daysService from '../../../../../services/days.service.js';
+import DayList from './DayList';
+import css from './index.css';
 
 
 
-const Day = ({ isEditable, onClick, day }) => {
-  const classes = classNames({
-    [css.day]: true,
-    [css.active]: day.mileage_am > 0 || day.mileage_pm > 0,
-    [css.isEditable]: (isEditable && day.prev_mileage_am) || (isEditable && day.prev_mileage_pm)
-  });
 
-  const handler = isEditable
-    ? () => onClick(day)
-    : () => {};
-
-  return (
-    <div onClick={handler} className={classes}>
-      <div className={css.hovered}>
-        <div className={css.dual}>
-          <div>
-            <div>Mañana</div>
-            <div>Fecha: {day.dateFormmatted}</div>
-            <div>KM Previo: {formatMilesSeparator(day.prev_mileage_am)}</div>
-            <div>KM Nuevo: {formatMilesSeparator(day.mileage_am)}</div>
-            <div>KM Recorrido: {formatMilesSeparator(day.mileage_am - day.prev_mileage_am)} KM</div>
-          </div>
-          <div>
-            <div>Tarde</div>
-            <div>Fecha: {day.dateFormmatted}</div>
-            <div>KM Previo: {formatMilesSeparator(day.prev_mileage_pm)}</div>
-            <div>KM Nuevo: {formatMilesSeparator(day.mileage_pm)}</div>
-            <div>KM Recorrido: {day.mileage_pm == 0 ? 0 : formatMilesSeparator(day.mileage_pm - day.prev_mileage_pm)} KM</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
 
 const Days = ({ car, actions }) => {
+  const [ currentDate, setCurrentDate ] = useState(new Date());
   const [ dayList, setDayList ] = useState(car.days);
   const [ currentMonth, setCurrentMonth ] = useState();
   const [ activeMonth, setActiveMonth ] = useState();
@@ -71,9 +39,12 @@ const Days = ({ car, actions }) => {
 
 
   useEffect(() => {
-    const currentMonth = getCurrentMonth(car.days[0].dateFormmatted);
-    setCurrentMonth(currentMonth);
-    setActiveMonth(currentMonth);
+    if(car.days.length) {
+      const currentMonth = getCurrentMonth(car.days[0].dateFormmatted);
+      setCurrentMonth(currentMonth);
+      setActiveMonth(currentMonth);
+    }
+
     getLastDayUpdatedIdx(car);
   }, []);
 
@@ -86,23 +57,34 @@ const Days = ({ car, actions }) => {
     };
   };
 
-  const fetchDays = debounce((date, direction) => {
-    const [day, month, year] = date.split('-');
-    const newDate = new Date(year, month - 1, day);
-    newDate.setMonth(newDate.getMonth() + direction);
-
-    daysService.fetchDaysByDate(car.id, newDate.getFullYear(), newDate.getMonth() + 1)
+  const fetchDays = debounce((payload) => {
+    daysService.fetchDaysByDate(payload)
       .then(response => {
-        if(response.days && response.days.length) {
-          setDayList(response.days);
-          setActiveMonth(activeMonth + direction);
-          getLastDayUpdatedIdx(response);
-        }
+        // if(response.days && response.days.length) {
+        setDayList(response.days);
+        // setActiveMonth(activeMonth + direction);
+        getLastDayUpdatedIdx(response);
+        // }
       });
   }, 300);
 
-  const onUpdateDayList = (date, direction) => {
-    fetchDays(date, direction);
+
+  const onUpdateDayList = (direction) => {
+    const month = currentDate.getMonth();
+    const year = currentDate.getFullYear();
+
+    const newDate = new Date(year, month);
+    newDate.setMonth(newDate.getMonth() + direction);
+    setCurrentDate(newDate);
+
+    const payload = {
+      "car": car.id,
+      "year": newDate.getFullYear(),
+      "month": newDate.getMonth() + 1
+    }
+
+
+    fetchDays(payload);
   };
 
 
@@ -115,7 +97,7 @@ const Days = ({ car, actions }) => {
 
 
   const formatDateToString = (date) => {
-    const [_, month, year] = date.split('-');
+    const currentDateObj = new Date(date);
     const monthNames = [
       "Enero",
       "Febrero",
@@ -130,8 +112,10 @@ const Days = ({ car, actions }) => {
       "Noviembre",
       "Diciembre"
     ];
+    const month = currentDateObj.getMonth();
+    const year = currentDateObj.getFullYear();
 
-    return `${monthNames[parseInt(month) - 1]} del ${year}`;
+    return `${monthNames[month]} del ${year}`;
   };
 
   const getTotalMileageInMonth = () => {
@@ -141,31 +125,32 @@ const Days = ({ car, actions }) => {
       .reduce((acc, day) => acc + day, 0);
   };
 
-  console.log('lastDayUpdatedIdx', lastDayUpdatedIdx);
+
+  const component = car.days.length ? (
+    <div>
+      <div className={css.month_container}>
+        <div className={css.month_title}>{formatDateToString(currentDate)}</div>
+      </div>
+      <div className={css.days_container}>
+        <button className={css.prev_month} onClick={() => onUpdateDayList(-1)}>{"<"}</button>
+        <div className={css.days}>
+          <DayList
+            data={dayList}
+            lastDayUpdatedIdx={lastDayUpdatedIdx}
+            onClick={onClick}
+            currentDate={currentDate}
+            carId={car.id}
+          />
+        </div>
+        <button className={css.next_month} onClick={() => onUpdateDayList(1)}>{">"}</button>
+        <div className={css.month_total}>KM recorridos en el mes: {formatMilesSeparator(getTotalMileageInMonth())}</div>
+      </div>
+    </div>
+  ) : <div>No hay días</div>;
 
   return (
     <div>
-      <div className={css.month_container}>
-        <div className={css.month_title}>{formatDateToString(dayList[0].dateFormmatted)}</div>
-      </div>
-      <div className={css.days_container}>
-        <button className={css.prev_month} onClick={() => onUpdateDayList(dayList[0].dateFormmatted, -1)}>{"<"}</button>
-        <div className={css.days}>
-          {
-            dayList.map((day, idx) =>
-              <Day
-                isEditable={day.is_editable}
-                // isEditable={idx >= lastDayUpdatedIdx}
-              // isEditable={idx >= lastDayUpdatedIdx && activeMonth >= currentMonth}
-                key={`day-${idx}`} day={day}
-                onClick={onClick}
-              />
-            )
-          }
-        </div>
-        <button className={css.next_month} onClick={() => onUpdateDayList(dayList[0].dateFormmatted, 1)}>{">"}</button>
-        <div className={css.month_total}>KM recorridos en el mes: {formatMilesSeparator(getTotalMileageInMonth())}</div>
-      </div>
+      {component}
     </div>
   );
 };

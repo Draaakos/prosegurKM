@@ -37,7 +37,9 @@ const useDashboard = () => {
       });
 
     carService.fetchServiceSelector()
-      .then(response => setServiceOptions(response.services));
+      .then(response => {
+        setServiceOptions(response.services);
+      });
   }, []);
 
   return {

@@ -2,9 +2,11 @@
 
 all: run
 
+
 run:
 	@echo "Starting the Django development server..."
 	@. env/bin/activate && python manage.py runserver
+
 
 month:
 	@echo "Running the script to generate month template..."
@@ -13,6 +15,7 @@ month:
 build-front:
 	export NODE_ENV=production; \
 	sh ./bin/copy-assets.sh
+
 
 clean:
 	rm -rf node_modules

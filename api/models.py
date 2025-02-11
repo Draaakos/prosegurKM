@@ -5,6 +5,7 @@ from .tools import define_product_path
 
 
 class Account(models.Model):
+    name = models.CharField(max_length=100)
     email = models.EmailField(unique=True)
     password = models.CharField(max_length=100)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -94,7 +95,7 @@ class Car(models.Model):
     is_active = models.BooleanField(default=True)
 
     def get_days_for_current_month_and_car(self):
-        last_day_updated = self.get_last_day_updated_idx()
+        last_day_updated = self.get_last_day_updated_idx(self.id)
 
         now = datetime.now()
         year = now.year
@@ -110,14 +111,24 @@ class Car(models.Model):
         for day in days:
             is_editable = True
             if last_day_updated is not None:
+                print('last_day_updated', last_day_updated)
+                print('day', day.mileage_date)
                 is_editable = last_day_updated <= day.mileage_date
 
             days_processed.append(day.to_json(is_editable))
         return days_processed
 
-    def get_last_day_updated_idx(self):
-        days_am = CarKilometerLog.objects.filter(car=self).filter(mileage_am__gt=0).order_by('-mileage_date')
-        days_pm = CarKilometerLog.objects.filter(car=self).filter(mileage_pm__gt=0).order_by('-mileage_date')
+
+    def get_last_day_updated_idx(self, car_id):
+        days_am = CarKilometerLog.objects.filter(car=car_id).filter(mileage_am__gt=0).order_by('-mileage_date')
+        days_pm = CarKilometerLog.objects.filter(car=car_id).filter(mileage_pm__gt=0).order_by('-mileage_date')
+
+        if len(days_pm) > 0:
+            return days_pm[0].mileage_date
+        elif len(days_am) > 0:
+            return days_am[0].mileage_date
+        else:
+            return None
 
         if days_am.exists():
             return days_am[0].mileage_date
@@ -125,7 +136,6 @@ class Car(models.Model):
             return days_pm[0].mileage_date
         else:
             return None
-
 
 
     def to_json(self):
@@ -157,6 +167,8 @@ class CarKilometerLog(models.Model):
     mileage_date = models.DateTimeField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    last_edition_by = models.ForeignKey(Account, on_delete=models.CASCADE, null=True, blank=True)
+
 
     def to_json(self, is_editable = True):
         return {
@@ -167,7 +179,8 @@ class CarKilometerLog(models.Model):
             'mileage_pm': self.mileage_pm,
             'date': self.mileage_date,
             'dateFormmatted': self.mileage_date.strftime('%d-%m-%Y'),
-            'is_editable': is_editable
+            'is_editable': is_editable,
+            'last_edition_by': self.last_edition_by.name if self.last_edition_by is not None else None
         }
 
 

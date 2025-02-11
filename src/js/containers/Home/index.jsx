@@ -10,7 +10,13 @@ const HomeApp = () => {
 
   const handleLogin = () => {
     authService.login({ email, password })
-      .then(() => window.location.href = '/dashboard')
+      .then((response) => {
+        if (response.error) {
+          alert('Credenciales incorrectas')
+        } else {
+          window.location.href = '/dashboard'
+        }
+      })
   };
 
   return (

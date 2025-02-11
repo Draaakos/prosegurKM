@@ -2,8 +2,8 @@ import http from '../utils/http.js';
 
 
 const daysService = {
-  fetchDaysByDate(carId, year, month) {
-    const url = `/api/v1/logs/${year}/${month}/car/${carId}`;
+  fetchDaysByDate(payload ) {
+    const url = `/api/v1/logs/${payload.year}/${payload.month}/car/${payload.car}`;
     return http.get(url);
   }
 };

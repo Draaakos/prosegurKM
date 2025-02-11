@@ -47,8 +47,10 @@ const NewCar = () => {
       .then(response => {
           if (response.errors) {
               console.error('Error:', response.errors);
+              window.location.reload();
           } else {
               console.log('Success:', response);
+              window.location.reload();
           }
       })
       .catch((error) => {
@@ -68,7 +70,7 @@ const NewCar = () => {
           value={carData.ppu}
           onChange={handleChange}
           className={css.form_input}
-          placeholder="Enter PPU"
+          placeholder="Ingresar PPU"
           required
         />
       </div>
@@ -82,23 +84,11 @@ const NewCar = () => {
           className={css.form_input}
           required
         >
-          <option value="" disabled>Select Type</option>
+          <option value="" disabled>Tipo de vehículo</option>
           {carTypes.map((type) => (
             <option key={type.id} value={type.id}>{type.name}</option>
           ))}
         </select>
-      </div>
-      <div className={css.form_group}>
-        <label htmlFor="date" className={css.form_label}>Date</label>
-        <input
-          type="date"
-          id="date"
-          name="date"
-          value={carData.date}
-          onChange={handleChange}
-          className={css.form_input}
-          required
-        />
       </div>
       <button className={css.submit_button} type="submit">Agregar Vehículo</button>
     </form>

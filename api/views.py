@@ -5,6 +5,7 @@ from .controller.carstamp import CarStampView
 from .controller.car_document import CarDocumentView
 from .controller.logs_month_car import LogsMonthCarView
 from .controller.logs import LogsView
+from .controller.login import LoginView
 
 
 car_view = CarView.as_view()
@@ -23,3 +24,5 @@ car_type_list = fetch_car_type_list
 
 logs_view = LogsView.as_view()
 logs_month_car_view = LogsMonthCarView.as_view()
+
+login_view = LoginView.as_view()

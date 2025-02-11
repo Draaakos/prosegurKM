@@ -122,5 +122,15 @@
     "fields": {
       "name": "Certificado protección de cabina"
     }
+  },
+  {
+    "model": "api.account",
+    "pk": 1,
+    "fields": {
+      "email": "admin@kilome.cl",
+      "password": "admin",
+      "created_at": "2024-08-12T00:00:00Z",
+      "updated_at": "2024-08-12T00:00:00Z"
+    }
   }
 ]

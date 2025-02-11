@@ -1,7 +1,18 @@
+import { useState } from 'react';
+import authService from '../../services/auth.service.js';
 import css from './index.css';
 
 
+
 const HomeApp = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleLogin = () => {
+    authService.login({ email, password })
+      .then(() => window.location.href = '/dashboard')
+  };
+
   return (
     <div className={css.page}>
       <div className={css.content}>
@@ -15,9 +26,9 @@ const HomeApp = () => {
           <div className={css.formContent}>
             <div className={css.title}>INICIAR SESION</div>
             <div>
-              <div><input type="text" placeholder="example@gmail.com"/></div>
-              <div><input type="password" placeholder="password"/></div>
-              <div><button>Login</button></div>
+              <div><input type="text" placeholder="example@gmail.com" onChange={(e) => setEmail(e.target.value)}/></div>
+              <div><input type="password" placeholder="password" onChange={(e) => setPassword(e.target.value)}/></div>
+              <div><button onClick={handleLogin}>Login</button></div>
             </div>
           </div>
         </div>

@@ -35,7 +35,7 @@ const Dashboard = () => {
           )
         }
 
-        <div className={css.content}>
+        <div className={`${css.content} content`}>
           <h1 className={css.title}>Camionetas PROSEGUR</h1>
           <div className={css.panel}>
             <input className={css.searcher} onChange={(evt) => actions.onFilter(evt.target.value)} placeholder="buscar" type="text" />
